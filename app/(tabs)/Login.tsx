@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   Alert
 } from 'react-native';
-import {api} from '@/app/Hooks/api'
+
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
