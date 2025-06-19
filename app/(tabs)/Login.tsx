@@ -29,7 +29,7 @@ export default function LoginScreen() {
     email,password
 
     }
-    fetch('http://192.168.1.141:3000/login', {
+    fetch('http://192.168.43.203:3000/login', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
