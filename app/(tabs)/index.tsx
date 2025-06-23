@@ -5,8 +5,11 @@ import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-
+// import { View,Text } from 'react-native-reanimated/lib/typescript/Animated';
+import { View,Text } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 export default function HomeScreen() {
+  const {colors,dark}=useTheme()
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -52,6 +55,9 @@ export default function HomeScreen() {
         </ThemedText>
       </ThemedView>
     </ParallaxScrollView>
+    // <View >
+    //   <Text style={{color:colors.text}}>dddww</Text>
+    // </View>
   );
 }
 

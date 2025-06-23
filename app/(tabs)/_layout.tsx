@@ -7,7 +7,7 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 // import { useColorScheme } from '@/hooks/useColorScheme';
-// import { useColorScheme } from '@/Hooks/useColorScheme.web';
+// import { useColorScheme } from '@/Hooks/u§seColorScheme.web';
 import { useColorScheme } from 'react-native';
 
 export default function TabLayout() {
