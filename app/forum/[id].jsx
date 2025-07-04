@@ -1,18 +1,20 @@
 import { useLocalSearchParams } from "expo-router"
 import { View, Text, FlatList, SafeAreaView, TouchableOpacity, StyleSheet } from 'react-native';
-import { conversation } from "@/data"
+// import { conversation } from "@/data"
 import { Ionicons } from '@expo/vector-icons'
-
+import { getByidForum } from "@/api/apiForum";
 export default function Forum(){
     
     const {id}=useLocalSearchParams()
-  const renderReply = ({ item }) => (
+    const conversation=getByidForum(id)
+     const renderReply = ({ item }) => (
     <View style={styles.reply}>
       <Text style={styles.replyAuthor}>{item.author}</Text>
       <Text style={styles.replyContent}>{item.content}</Text>
       <Text style={styles.replyTime}>{item.time}</Text>
       <Text style={styles.replyLink}>Reply</Text>
     </View>)
+    
     return(
         <>
              <SafeAreaView style={styles.container}>
