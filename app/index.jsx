@@ -47,20 +47,23 @@ export default function Index() {
           <Ionicons name="chatbubble-ellipses-outline" size={24} color="#007bff" />
           <Text style={styles.navText}>Discussions</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="mail-outline" size={24} color="#6c757d" />
-          <Text style={styles.navText}>Messages</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="person-outline" size={24} color="#6c757d" />
-          <Text style={styles.navText}>Activity
-
-            <Link href={{pathname:'/forum/test'}}></Link>
-          </Text>
-        </TouchableOpacity>
+       
+      
+          <TouchableOpacity style={styles.navItem}>
+    <Ionicons name="notifications-outline" size={24} color="#6c757d" />
+    <Text style={styles.navText}>Notifications</Text>
+  </TouchableOpacity>
+  <TouchableOpacity style={styles.navItem}>
+    <Ionicons name="person-outline" size={24} color="#6c757d" />
+    <Text style={styles.navText}>Profil</Text>
+  </TouchableOpacity>
         
       </View>
-      <BtnAdd/>
+      <Link href={"/createDiscussion"}
+      >
+              <BtnAdd/>
+      </Link>
+
     </SafeAreaView>
 
   );
