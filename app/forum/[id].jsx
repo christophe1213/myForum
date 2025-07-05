@@ -3,11 +3,23 @@ import { View, Text, FlatList, SafeAreaView, TouchableOpacity, StyleSheet } from
 // import { conversation } from "@/data"
 import { Ionicons } from '@expo/vector-icons'
 import { getByidForum } from "@/api/apiForum";
+import { useState } from "react";
 export default function Forum(){
     
     const {id}=useLocalSearchParams()
     const conversation=getByidForum(id)
-     const renderReply = ({ item }) => (
+    const [likes,setLikes]=useState(0)
+     const [likePressed, setLikePressed] = useState(false);
+    const handleLike=()=>{
+      if(!likePressed){
+        setLikes(likes+1)
+        setLikePressed(true)
+      }else{
+        setLikes(likes-1)
+        setLikePressed(false)
+      }
+    }
+    const renderReply = ({ item }) => (
     <View style={styles.reply}>
       <Text style={styles.replyAuthor}>{item.author}</Text>
       <Text style={styles.replyContent}>{item.content}</Text>
@@ -17,10 +29,10 @@ export default function Forum(){
     
     return(
         <>
-             <SafeAreaView style={styles.container}>
-      <TouchableOpacity style={styles.backButton}>
-        <Ionicons name="arrow-back" size={24} color="black" />
-      </TouchableOpacity>
+        <SafeAreaView style={styles.container}>
+            <TouchableOpacity style={styles.backButton}>
+            <Ionicons name="arrow-back" size={24} color="black" />
+            </TouchableOpacity>
 
       <View style={styles.topicCard}>
         <Text style={styles.topicTitle}>{conversation.title}</Text>
@@ -28,10 +40,12 @@ export default function Forum(){
         <Text style={styles.topicContent}>{conversation.content}</Text>
         <Text style={styles.topicMeta}>{conversation.replies.length} replies</Text>
         <View style={styles.reactions}>
-          <Ionicons name="thumbs-up-outline" size={20} color="gray" />
-          <Text style={styles.iconText}>5</Text>
-          <Ionicons name="chatbubble-outline" size={20} color="gray" style={{ marginLeft: 12 }} />
-          <Text style={styles.iconText}>3</Text>
+          <TouchableOpacity onPress={handleLike} style={{ flexDirection: 'row', alignItems: 'center' }}>
+             <Ionicons name={likePressed ? "thumbs-up" : "thumbs-up-outline"} size={20} color={likePressed ? "blue" : "gray"} />
+              <Text style={styles.iconText}>{likes}</Text>
+              
+          </TouchableOpacity>
+         
         </View>
       </View>
 

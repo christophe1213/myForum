@@ -52,7 +52,10 @@ export default function Index() {
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem}>
           <Ionicons name="person-outline" size={24} color="#6c757d" />
-          <Text style={styles.navText}>Activity</Text>
+          <Text style={styles.navText}>Activity
+
+            <Link href={{pathname:'/forum/test'}}></Link>
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
