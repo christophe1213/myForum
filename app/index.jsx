@@ -3,6 +3,7 @@ import { Link } from "expo-router";
 import { discussions } from "@/data";
 import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { BtnAdd } from "@/components/BtnAdd";
 const renderItem = ({ item={title:'',description:'',time:'',replies:'',author:''} }) => {
   
   return(
@@ -18,7 +19,7 @@ const renderItem = ({ item={title:'',description:'',time:'',replies:'',author:''
       >{item.author} · {item.time} · {item.replies} replies</Text>
       
           </Link>
-      
+  
     </View>
   );
 
@@ -57,7 +58,9 @@ export default function Index() {
             <Link href={{pathname:'/forum/test'}}></Link>
           </Text>
         </TouchableOpacity>
+        
       </View>
+      <BtnAdd/>
     </SafeAreaView>
 
   );
