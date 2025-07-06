@@ -4,68 +4,12 @@ import { discussions } from "@/data";
 import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { BtnAdd } from "@/components/BtnAdd";
-const renderItem = ({ item={title:'',description:'',time:'',replies:'',author:''} }) => {
-  
-  return(
-        
-
-    
-    <View style={styles.card}>
-          <Link href={{pathname:'/forum/[id]',params:{id:item.id}}}>
-          <Text style={styles.title}>{item.title}</Text>
-      <Text style={styles.description}>{item.description}</Text>
-      <Text style={styles.meta}
-        
-      >{item.author} · {item.time} · {item.replies} replies</Text>
-      
-          </Link>
-  
-    </View>
-  );
-
-}
-
+import Discussions from "@/components/Discussion";
+import LoginScreen from "@/components/Login";
 export default function Index() {
   return (
-   
-    <SafeAreaView style={styles.container}>
-         <View style={styles.header}>
-        <Text style={styles.headerTitle}>Forum</Text>
-        <Ionicons name="search" size={24} color="black" />
-      </View>
-      <Text style={styles.sectionTitle}>Discussions</Text>
-      <FlatList
-        data={discussions}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        contentContainerStyle={styles.list}
-        
-      />
-
-       <View style={styles.navBar}>
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="chatbubble-ellipses-outline" size={24} color="#007bff" />
-          <Text style={styles.navText}>Discussions</Text>
-        </TouchableOpacity>
-       
-      
-          <TouchableOpacity style={styles.navItem}>
-    <Ionicons name="notifications-outline" size={24} color="#6c757d" />
-    <Text style={styles.navText}>Notifications</Text>
-  </TouchableOpacity>
-  <TouchableOpacity style={styles.navItem}>
-    <Ionicons name="person-outline" size={24} color="#6c757d" />
-    <Text style={styles.navText}>Profil</Text>
-  </TouchableOpacity>
-        
-      </View>
-      <Link href={"/createDiscussion"}
-      >
-              <BtnAdd/>
-      </Link>
-
-    </SafeAreaView>
-
+   <LoginScreen/>
+    
   );
 }
 const styles = StyleSheet.create({
