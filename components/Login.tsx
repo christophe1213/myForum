@@ -6,22 +6,40 @@ import {
   TouchableOpacity,
   StyleSheet,
   SafeAreaView,
-  Alert
+  Alert,
+  ToastAndroid
 } from 'react-native';
-
+import { registerUser,loginUser } from '@/services/auth';
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-
-  const handleLogin = () => {
-    // Ici, logique de connexion (API, Firebase, etc.)
-    if (!email || !password) {
-      Alert.alert('Erreur', 'Veuillez remplir tous les champs');
-      return;
+  const register = async()=>{
+    let message ='register reussi'
+    try{
+        const r= await registerUser(email,password)
+       
+    }catch(e){
+        message='echec de register'
+        console.error(e)
+    }finally{
+       ToastAndroid.show(message,ToastAndroid.SHORT)
     }
+ }
 
-  };
+    const login = async()=>{
+    let message ='login reussi'
+    try{
+        const r= await loginUser(email,password)
+       
+    }catch(e){
+        message='echec de login'
+        console.error(e)
+    }finally{
+       ToastAndroid.show(message,ToastAndroid.SHORT)
+       
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -52,15 +70,15 @@ export default function LoginScreen() {
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+      <TouchableOpacity style={styles.button} onPress={login}>
         <Text style={styles.buttonText}>Se connecter</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity>
+      <TouchableOpacity >
         <Text style={styles.link}>Mot de passe oublié ?</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={register}>
         <Text style={styles.link}>Créer un compte</Text>
       </TouchableOpacity>
     </SafeAreaView>
