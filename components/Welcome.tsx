@@ -27,7 +27,7 @@ export default function WelcomeScreen() {
           </TouchableOpacity>
         </Link>
 
-        <Link href="/createDiscussion" asChild>
+        <Link href="/signUp" asChild>
           <TouchableOpacity style={styles.secondaryButton}>
             <Text style={styles.secondaryText}>Se connecter</Text>
           </TouchableOpacity>

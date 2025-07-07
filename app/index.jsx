@@ -6,7 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { BtnAdd } from "@/components/BtnAdd";
 import Discussions from "@/components/Discussion";
 import LoginScreen from "@/components/Login";
-import WelcomeScreen from "@/components/Welcme";
+import WelcomeScreen from "@/components/Welcome";
 export default function Index() {
   return (
   //  <LoginScreen/>/
