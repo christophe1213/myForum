@@ -10,20 +10,26 @@ import {
   ToastAndroid
 } from 'react-native';
 import { registerUser,loginUser } from '@/services/auth';
+import { useRouter } from 'expo-router';
+import { useAuth } from '@/context/AuthContext';
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter()
+  const {logIn}=useAuth()
   const register = async()=>{
     let message ='register reussi'
     try{
         const r= await registerUser(email,password)
-       
+  
     }catch(e){
         message='echec de register'
+        
         console.error(e)
     }finally{
        ToastAndroid.show(message,ToastAndroid.SHORT)
+     
     }
  }
 
@@ -31,7 +37,8 @@ export default function LoginScreen() {
     let message ='login reussi'
     try{
         const r= await loginUser(email,password)
-       
+        logIn({id:r.uid})
+         router.push('/app/home')
     }catch(e){
         message='echec de login'
         console.error(e)
