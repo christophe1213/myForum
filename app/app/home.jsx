@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, FlatList, SafeAreaView, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@/context/AuthContext';
+import { BtnAdd } from '@/components/BtnAdd';
+import { Link, useRouter } from 'expo-router';
 const discussions = [
   {
     id: '1',
@@ -60,7 +62,7 @@ export default function home() {
         keyExtractor={item => item.id}
         contentContainerStyle={styles.list}
       />
-      {/* <View style={styles.navBar}>
+      <View style={styles.navBar}>
         <TouchableOpacity style={styles.navItem}>
           <Ionicons name="chatbubble-ellipses-outline" size={24} color="#007bff" />
           <Text style={styles.navText}>Discussions</Text>
@@ -73,7 +75,15 @@ export default function home() {
           <Ionicons name="person-outline" size={24} color="#6c757d" />
           <Text style={styles.navText}>Activity</Text>
         </TouchableOpacity>
-      </View> */}
+      </View>
+
+     
+      
+           <BtnAdd onClick={()=>{
+              const router = useRouter()
+               router.push('/app/createDiscussion')
+           }}/>
+     
     </SafeAreaView>
   );
 }
