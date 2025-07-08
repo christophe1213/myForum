@@ -8,7 +8,9 @@ import {
   Alert,
   SafeAreaView,
 } from 'react-native';
-
+import { Thread } from '@/services/thread.services';
+import { useAuth } from '@/context/AuthContext';
+import { createThread } from '@/services/thread.services';
 interface Discussion {
   title: string;
   content: string;
@@ -20,6 +22,7 @@ const CreateDiscussionScreen: React.FC = () => {
     content: '',
   });
 
+  const {user}=useAuth()
   const handleChange = (field: keyof Discussion, value: string) => {
     setDiscussion(prev => ({ ...prev, [field]: value }));
   };
@@ -34,7 +37,13 @@ const CreateDiscussionScreen: React.FC = () => {
     console.log('Nouvelle discussion :', discussion);
 
     Alert.alert('Succès', 'Discussion créée avec succès !');
-
+    const newThread: Thread = {
+        id: 'dd',
+        title:discussion.title,
+        description:discussion.content,
+        userId:user.id,
+      };
+      createThread(newThread)
     // Reset form
     setDiscussion({ title: '', content: '' });
   };

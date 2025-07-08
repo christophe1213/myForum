@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, FlatList, SafeAreaView, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@/context/AuthContext';
 import { BtnAdd } from '@/components/BtnAdd';
 import { Link, useRouter } from 'expo-router';
+import { getAllThreads } from '@/services/thread.services';
 const discussions = [
   {
     id: '1',
@@ -48,6 +49,14 @@ export default function home() {
       <Text style={styles.meta}>{item.author} · {item.time} · {item.replies} replies</Text>
     </View>
   );
+   
+  useEffect(()=>{
+    getAllThreads().then((r)=>{
+      console.log(r)
+    }).catch((e)=>{
+      console.error(e)
+    })
+  },[])
 
   return (
     <SafeAreaView style={styles.container}>
