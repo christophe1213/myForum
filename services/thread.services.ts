@@ -4,17 +4,20 @@ import { db } from './FirebaseService'; // db = firebase.firestore()
 
 import { collection, doc,setDoc, getDoc, getDocs, addDoc, updateDoc, deleteDoc, Timestamp } from 'firebase/firestore';
 
-export type Thread = {
-  id: string;
-  title: string;
-  description: string;
-  userId: string;
-};
+import { Thread } from './models';
 
 // 🔹 CREATE
-export const createThread = async (thread: Thread) => {
-  await setDoc(doc(db, "thread", thread.id), thread);
-};
+// export const createThread = async (thread: Thread) => {
+//   // await setDoc(doc(db, "thread", thread.id), thread);
+//   const docRef = await addDoc(collection(db,"thread"),thread)
+//   return docRef
+// };
+
+export const createThread= async(thread: Omit<Thread, "id">): Promise<string>=> {
+  const threadsCollection = collection(db, "thread");  
+  const docRef = await addDoc(threadsCollection, thread);
+    return docRef.id; // retourne l'id généré
+  }
 
 // 🔹 READ ONE
 export const getThreadById = async (id: string): Promise<Thread | null> => {
@@ -25,7 +28,7 @@ export const getThreadById = async (id: string): Promise<Thread | null> => {
 
 // 🔹 READ ALL
 export const getAllThreads = async (): Promise<Thread[]> => {
-  const colRef = collection(db, "threads");
+  const colRef = collection(db, "thread");
   const snapshot = await getDocs(colRef);
   return snapshot.docs.map((doc) => doc.data() as Thread);
 };

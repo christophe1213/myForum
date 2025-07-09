@@ -24,7 +24,7 @@ export default function LoginScreen() {
     let message ='login reussi'
     try{
         const r= await loginUser(email,password)
-          const user = UserService.getUser(r.uid)
+        const user = await UserService.getUser(r.uid)
         logIn(user)
       
          router.push('/app/home')
@@ -74,7 +74,7 @@ export default function LoginScreen() {
         <Text style={styles.link}>Mot de passe oublié ?</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={register}>
+      <TouchableOpacity >
         <Text style={styles.link}>Créer un compte</Text>
       </TouchableOpacity>
     </SafeAreaView>

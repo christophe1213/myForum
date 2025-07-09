@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, SafeAreaView, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@/context/AuthContext';
@@ -39,20 +39,27 @@ const discussions = [
     replies: 17,
   },
 ];
-
 export default function home() {
   const {user}=useAuth()
-  const renderItem = ({ item={title:'',description:'',time:'',replies:'',author:''} }) => (
+  const renderItem = ({ item={title:'',description:'',time:'',replies:[],author:{name:''}} }) => (
     <View style={styles.card}>
       <Text style={styles.title}>{item.title}</Text>
       <Text style={styles.description}>{item.description}</Text>
-      <Text style={styles.meta}>{item.author} · {item.time} · {item.replies} replies</Text>
+      <Text style={styles.meta}>{item.author.name} · {item.time} ·  replies</Text>
     </View>
   );
-   
+  
+   const [threads,setThreads]=useState([{
+    id:"", 
+    title: "",
+  userId: "",
+  author:{name:''},
+  replies: []
+   }])
   useEffect(()=>{
     getAllThreads().then((r)=>{
       console.log(r)
+      setThreads(r)
     }).catch((e)=>{
       console.error(e)
     })
@@ -66,7 +73,7 @@ export default function home() {
       </View>
       <Text style={styles.sectionTitle}>Discussions {user.name} jj </Text>
       <FlatList
-        data={discussions}
+        data={threads}
         renderItem={renderItem}
         keyExtractor={item => item.id}
         contentContainerStyle={styles.list}
