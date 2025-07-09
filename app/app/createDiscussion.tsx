@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { Thread } from '@/services/models';
 import { useAuth } from '@/context/AuthContext';
-import { createThread } from '@/services/thread.services';
+import { ThreadService } from '@/services/thread.services';
 interface Discussion {
   title: string;
   content: string;
@@ -27,7 +27,7 @@ const CreateDiscussionScreen: React.FC = () => {
     setDiscussion(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     if (!discussion.title.trim() || !discussion.content.trim()) {
       Alert.alert('Erreur', 'Tous les champs sont obligatoires.');
       return;
@@ -37,14 +37,13 @@ const CreateDiscussionScreen: React.FC = () => {
     console.log('Nouvelle discussion :', discussion);
 
     Alert.alert('Succès', 'Discussion créée avec succès !');
-    const newThread: Thread = {
-        
-        title:discussion.title,
+ 
+    await  ThreadService.createThread({
+       title:discussion.title,
         description:discussion.content,
         author:user,
         createdAt:new Date()
-      };
-      createThread(newThread)
+    })
     // Reset form
     setDiscussion({ title: '', content: '' });
   };

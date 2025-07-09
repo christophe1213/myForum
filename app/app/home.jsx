@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@/context/AuthContext';
 import { BtnAdd } from '@/components/BtnAdd';
 import { Link, useRouter } from 'expo-router';
-import { getAllThreads } from '@/services/thread.services';
+import { ThreadService } from '@/services/thread.services';
 const discussions = [
   {
     id: '1',
@@ -42,11 +42,14 @@ const discussions = [
 export default function home() {
   const {user}=useAuth()
   const renderItem = ({ item={title:'',description:'',time:'',replies:[],author:{name:''}} }) => (
-    <View style={styles.card}>
-      <Text style={styles.title}>{item.title}</Text>
-      <Text style={styles.description}>{item.description}</Text>
-      <Text style={styles.meta}>{item.author.name} · {item.time} ·  replies</Text>
-    </View>
+   
+      <Link href={{pathname:'',params:{id:item.id}}}>
+       <View style={styles.card}>
+          <Text style={styles.title}>{item.title}</Text>
+          <Text style={styles.description}>{item.description}</Text>
+          <Text style={styles.meta}>{item.author.name} · {item.time} ·  replies</Text>
+        </View>
+          </Link>
   );
   
    const [threads,setThreads]=useState([{
@@ -57,7 +60,7 @@ export default function home() {
   replies: []
    }])
   useEffect(()=>{
-    getAllThreads().then((r)=>{
+    ThreadService.getAllThreads().then((r)=>{
       console.log(r)
       setThreads(r)
     }).catch((e)=>{

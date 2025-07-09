@@ -13,34 +13,40 @@ import { Thread } from './models';
 //   return docRef
 // };
 
-export const createThread= async(thread: Omit<Thread, "id">): Promise<string>=> {
-  const threadsCollection = collection(db, "thread");  
-  const docRef = await addDoc(threadsCollection, thread);
+const threadsCollection = collection(db, "threads");
+
+export const ThreadService = {
+  // ✅ CREATE avec id généré automatiquement
+  async createThread(thread: Omit<Thread, "id">): Promise<string> {
+    const docRef = await addDoc(threadsCollection, thread);
     return docRef.id; // retourne l'id généré
-  }
+  },
 
-// 🔹 READ ONE
-export const getThreadById = async (id: string): Promise<Thread | null> => {
-  const docRef = doc(db, "thread", id);
-  const snap = await getDoc(docRef);
-  return snap.exists() ? (snap.data() as Thread) : null;
-};
+  // ✅ READ un seul thread
+  async getThread(id: string): Promise<Thread | null> {
+    const docRef = doc(db, "threads", id);
+    const docSnap = await getDoc(docRef);
+    return docSnap.exists() ? { id, ...(docSnap.data() as Omit<Thread, "id">) } : null;
+  },
 
-// 🔹 READ ALL
-export const getAllThreads = async (): Promise<Thread[]> => {
-  const colRef = collection(db, "thread");
-  const snapshot = await getDocs(colRef);
-  return snapshot.docs.map((doc) => doc.data() as Thread);
-};
+  // ✅ READ tous les threads
+  async getAllThreads(): Promise<Thread[]> {
+    const snapshot = await getDocs(threadsCollection);
+    return snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...(doc.data() as Omit<Thread, "id">),
+    }));
+  },
 
-// 🔹 UPDATE
-export const updateThread = async (id: string, updates: Partial<Thread>) => {
-  const docRef = doc(db, "threads", id);
-  await updateDoc(docRef, updates);
-};
+  // ✅ UPDATE
+  async updateThread(id: string, data: Partial<Thread>) {
+    const docRef = doc(db, "threads", id);
+    await updateDoc(docRef, data);
+  },
 
-// 🔹 DELETE
-export const deleteThread = async (id: string) => {
-  const docRef = doc(db, "threads", id);
-  await deleteDoc(docRef);
+  // ✅ DELETE
+  async deleteThread(id: string) {
+    const docRef = doc(db, "threads", id);
+    await deleteDoc(docRef);
+  },
 };
