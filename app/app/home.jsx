@@ -43,7 +43,7 @@ export default function home() {
   const {user}=useAuth()
   const renderItem = ({ item={title:'',description:'',time:'',replies:[],author:{name:''}} }) => (
    
-      <Link href={{pathname:'/app/forum/[id]',params:{id:item.id}}}>
+      <Link href={{pathname:'/app/coment/[id]',params:{id:item.id}}}>
        <View style={styles.card}>
           <Text style={styles.title}>{item.title}</Text>
           <Text style={styles.description}>{item.description}</Text>

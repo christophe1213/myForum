@@ -4,6 +4,7 @@ import { View, Text, FlatList, SafeAreaView, TouchableOpacity, StyleSheet } from
 import { Ionicons } from '@expo/vector-icons'
 import { getByidForum } from "@/api/apiForum";
 import { useState } from "react";
+import Reaction from '@/components/Reaction'
 export default function Forum(){
     
     const {id}=useLocalSearchParams()
@@ -40,12 +41,11 @@ export default function Forum(){
         <Text style={styles.topicContent}>{conversation.content}</Text>
         <Text style={styles.topicMeta}>{conversation.replies.length} replies</Text>
         <View style={styles.reactions}>
-          <TouchableOpacity onPress={handleLike} style={{ flexDirection: 'row', alignItems: 'center' }}>
-             <Ionicons name={likePressed ? "thumbs-up" : "thumbs-up-outline"} size={20} color={likePressed ? "blue" : "gray"} />
-              <Text style={styles.iconText}>{likes}</Text>
-              
-          </TouchableOpacity>
-         
+        
+           <Reaction likePressed={likePressed}
+              handleLike={handleLike}
+              likes={likes}
+           />
         </View>
       </View>
 
@@ -91,11 +91,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 12,
   },
-  iconText: {
-    fontSize: 12,
-    color: '#555',
-    marginLeft: 4,
-  },
+
   list: {
     padding: 16,
   },

@@ -7,10 +7,14 @@ import { BtnAdd } from "@/components/BtnAdd";
 import Discussions from "@/components/Discussion";
 import LoginScreen from "@/components/Login";
 import WelcomeScreen from "@/components/Welcome";
+import TopicDetail from "@/app-example/app/(tabs)/conversation";
+import Forum from '@/app/app/coment/[id]'
 export default function Index() {
   return (
   //  <LoginScreen/>/
-  <WelcomeScreen/>
+  // <WelcomeScreen/>
+  <Forum></Forum>
+  // <TopicDetail></TopicDetail>
     
   );
 }
