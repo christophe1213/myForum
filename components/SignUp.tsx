@@ -10,15 +10,34 @@ import {
   ToastAndroid
 } from 'react-native';
 import { registerUser,loginUser } from '@/services/auth';
+import { User,UserService } from '@/services/users.services';
+import { useRouter } from 'expo-router';
+import { useAuth } from '@/context/AuthContext';
 export default function SignUpScreen() {
+  const [name,setName]=useState('')
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+   const router = useRouter()
+   const {logIn}=useAuth()
   const register = async()=>{
     let message ='register reussi'
     try{
+
         const r= await registerUser(email,password)
-       
+        await UserService.createUser({
+          id: r.uid,
+          name: name,
+          email: email,
+          role: "client"
+        });
+          logIn({
+             id: r.uid,
+          name: name,
+          email: email,
+          role: "client"
+          })
+         router.push('/app/home')
     }catch(e){
         message='echec de register'
         console.error(e)
@@ -27,19 +46,7 @@ export default function SignUpScreen() {
     }
  }
 
-    const login = async()=>{
-    let message ='login reussi'
-    try{
-        const r= await loginUser(email,password)
-       
-    }catch(e){
-        message='echec de login'
-        console.error(e)
-    }finally{
-       ToastAndroid.show(message,ToastAndroid.SHORT)
-       
-    }
-  }
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -53,6 +60,15 @@ export default function SignUpScreen() {
         autoCapitalize="none"
         value={email}
         onChangeText={setEmail}
+      />
+
+       <TextInput
+        style={styles.input}
+        placeholder="nom"
+        placeholderTextColor="#999"
+        autoCapitalize="none"
+        value={name}
+        onChangeText={setName}
       />
 
       <TextInput
