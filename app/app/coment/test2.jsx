@@ -15,11 +15,19 @@ const initialConversation = {
   ]
 };
 
-
 export default function TestComment(){
+      return(
+        <SafeAreaView>
+          <ListComments replies={initialConversation.replies}></ListComments>
+        </SafeAreaView>
+      )
+}
+
+
+export function ListComments({replies=[]}){
      const [replyingTo, setReplyingTo] = useState(null);
     const [inputText,setInputText]=useState('')
-  const [comments, setComments] = useState(initialConversation.replies);
+  const [comments, setComments] = useState(replies);
     const handleSendReply = (parentId) => {
     if (inputText.trim() === '') return;
     const updated = comments.map(comment => {
@@ -55,14 +63,14 @@ export default function TestComment(){
 );
     
      return(
-        <SafeAreaView>
+        
           <FlatList
-        data={initialConversation.replies}
+        data={comments}
         renderItem={renderReply}
         keyExtractor={item => item.id}
         contentContainerStyle={styles.list}
       />
-        </SafeAreaView>
+      
     )
 }
 

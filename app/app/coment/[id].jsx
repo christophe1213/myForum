@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { getByidForum } from "@/api/apiForum";
 import { useState } from "react";
 import Reaction from '@/components/Reaction'
+import { ListComments } from "@/components/Comment";
 export default function Forum(){
     
     const {id}=useLocalSearchParams()
@@ -20,13 +21,7 @@ export default function Forum(){
         setLikePressed(false)
       }
     }
-    const renderReply = ({ item }) => (
-    <View style={styles.reply}>
-      <Text style={styles.replyAuthor}>{item.author}</Text>
-      <Text style={styles.replyContent}>{item.content}</Text>
-      <Text style={styles.replyTime}>{item.time}</Text>
-      <Text style={styles.replyLink}>Reply</Text>
-    </View>)
+   
     
     return(
         <>
@@ -35,26 +30,23 @@ export default function Forum(){
             <Ionicons name="arrow-back" size={24} color="black" />
             </TouchableOpacity>
 
-      <View style={styles.topicCard}>
-        <Text style={styles.topicTitle}>{conversation.title}</Text>
-        <Text style={styles.topicMeta}>{conversation.author} · {conversation.time} · in General</Text>
-        <Text style={styles.topicContent}>{conversation.content}</Text>
-        <Text style={styles.topicMeta}>{conversation.replies.length} replies</Text>
-        <View style={styles.reactions}>
-        
-           <Reaction likePressed={likePressed}
-              handleLike={handleLike}
-              likes={likes}
-           />
-        </View>
-      </View>
+            <View style={styles.topicCard}>
+                  <Text style={styles.topicTitle}>{conversation.title}</Text>
+                  <Text style={styles.topicMeta}>{conversation.author} · {conversation.time} · in General</Text>
+                  <Text style={styles.topicContent}>{conversation.content}</Text>
+                  <Text style={styles.topicMeta}>{conversation.replies.length} replies</Text>
+                  <View style={styles.reactions}>
+                  
+                    <Reaction likePressed={likePressed}
+                        handleLike={handleLike}
+                        likes={likes}
+                    />
+                  </View>
+            </View>
+            <ListComments replies={conversation.replies}
+            
+            />
 
-      <FlatList
-        data={conversation.replies}
-        renderItem={renderReply}
-        keyExtractor={item => item.id}
-        contentContainerStyle={styles.list}
-      />
     </SafeAreaView>
         </>
     )

@@ -1,6 +1,56 @@
 
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput,FlatList } from 'react-native';
+import { useState } from 'react';
 
+export function ListComments({replies=[],createComent=()=>{}}){
+    const [replyingTo, setReplyingTo] = useState(null);
+    const [inputText,setInputText]=useState('')
+    const [comments, setComments] = useState(replies);
+    const handleSendReply = (parentId) => {
+    if (inputText.trim() === '') return;
+    const updated = comments.map(comment => {
+     if (comment.id === parentId) {
+      return {
+        ...comment,
+          responses: [
+            ...(comment.responses || []),
+            {
+              id: Date.now().toString(),
+              author: 'You',
+              content: inputText,
+              time: 'Just now'
+            }
+          ]
+        };
+      }
+      return comment;
+    });
+    setComments(updated);
+    setInputText('');
+    setReplyingTo(null);
+  };
+     const renderReply = ({ item=[] }) => (
+  <Comment
+    comment={item}
+    replyingTo={replyingTo}
+    inputText={inputText}
+    onStartReply={setReplyingTo}
+    onChangeText={setInputText}
+    onSendReply={handleSendReply}
+  />
+);
+    
+     return(
+        
+          <FlatList
+        data={comments}
+        renderItem={renderReply}
+        keyExtractor={item => item.id}
+        contentContainerStyle={styles.list}
+      />
+      
+    )
+}
 
 
 
@@ -76,5 +126,8 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     borderLeftWidth: 2,
     borderColor: '#eee'
-  }
+  },
+    list: {
+    padding: 16,
+  },
 });
