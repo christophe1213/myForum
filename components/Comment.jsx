@@ -1,6 +1,6 @@
 
 import { View, Text, StyleSheet, TouchableOpacity, TextInput,FlatList } from 'react-native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export function ListComments({replies=[],createComent=()=>{}}){
     const [replyingTo, setReplyingTo] = useState(null);
@@ -39,6 +39,9 @@ export function ListComments({replies=[],createComent=()=>{}}){
     onSendReply={handleSendReply}
   />
 );
+useEffect(()=>{
+  setComments(replies)
+},[replies])
     
      return(
         
@@ -66,7 +69,7 @@ export default function Comment({
          <View style={styles.reply}>
       <Text style={styles.replyAuthor}>{comment.author}</Text>
       <Text style={styles.replyContent}>{comment.content}</Text>
-      <Text style={styles.replyTime}>{comment.time}</Text>
+      <Text style={styles.replyTime}>{comment.time?.toDate?.().toLocaleString?.() || ''}</Text>
 
       <TouchableOpacity onPress={() => onStartReply(comment.id)}>
         <Text style={styles.replyLink}>Répondre</Text>
@@ -90,7 +93,7 @@ export default function Comment({
         <View key={sub.id} style={styles.subReply}>
           <Text style={styles.replyAuthor}>{sub.author}</Text>
           <Text style={styles.replyContent}>{sub.content}</Text>
-          <Text style={styles.replyTime}>{sub.time}</Text>
+          <Text style={styles.replyTime}>{sub.time?.toDate?.().toLocaleString?.() || ''}</Text>
         </View>
       ))}
     </View>

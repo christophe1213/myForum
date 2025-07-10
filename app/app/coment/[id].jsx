@@ -8,10 +8,13 @@ import Reaction from '@/components/Reaction'
 import { ListComments } from "@/components/Comment";
 import { ThreadService } from "@/services/thread.services";
 import  BtnComment  from "@/components/BtnComment";
+import { ReplyService } from "@/services/replies.services";
+import { useAuth } from "@/context/AuthContext";
 export default function Forum(){
     
     const {id}=useLocalSearchParams()
     const conversation=getByidForum(id)
+    const {user }=useAuth()
     const [likes,setLikes]=useState(0)
     const [likePressed, setLikePressed] = useState(false);
     const [showComment,setShowComment]=useState(false)
@@ -20,6 +23,7 @@ export default function Forum(){
     const [replies,setReplies]=useState([])
     const [description,setDesciption]=useState('')
     
+
     const handleLike=()=>{
       if(!likePressed){
         setLikes(likes+1)
@@ -34,12 +38,19 @@ export default function Forum(){
     const handleComent=(text)=>{
       const newComment = {
         id: Date.now().toString(),
-        author: 'You',
+        author: user.name,
         content: text,
         time: new Date(),
         responses: []
       };
+      ReplyService.createReply(id,newComment).then((r)=>{
+        console.log('replies créer avec succes')
+        console.log(r)
+      }).catch((e)=>{
+        console.error(e)
+      })
       setReplies([newComment, ...replies]);
+      setShowComment(false)
     }
 
     useEffect(()=>{
@@ -47,18 +58,26 @@ export default function Forum(){
           if(r!==null){
             setTitle(r.title)
             setDesciption(r.description)
-            setReplies(r.replies)
             setLikes(r.nbLike)
             setAuthor(r.author.name)
           }
-          console.log("dans le page theads ")
+        
+        }).catch((e)=>{
+          console.error(e)
+        })
+        ReplyService.getReplies(id).then((r)=>{
+          
+          if(r!==null){
+            setReplies(r)
+          }
+          console.log("replies")
           console.log(r)
         }).catch((e)=>{
           console.error(e)
         })
+
     },[])
    
-    
     return(
         <>
         <SafeAreaView style={styles.container}>
@@ -80,12 +99,12 @@ export default function Forum(){
                     <BtnComment
                         show={showComment}
                         showInputComment={()=>setShowComment(true)}
-                        nbComment={0}
+                        nbComment={replies.length}
                         handleSendReply={handleComent}
                     />
-                  </View>
             </View>
-            <ListComments replies={conversation.replies}
+            </View>
+            <ListComments replies={replies}
             
             />
 
