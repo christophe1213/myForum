@@ -2,7 +2,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, TextInput,FlatList } from 'react-native';
 import { useEffect, useState } from 'react';
 
-export function ListComments({replies=[],createComent=()=>{}}){
+export function ListComments({replies=[],replyComent=()=>{}}){
     const [replyingTo, setReplyingTo] = useState(null);
     const [inputText,setInputText]=useState('')
     const [comments, setComments] = useState(replies);
@@ -28,6 +28,7 @@ export function ListComments({replies=[],createComent=()=>{}}){
     setComments(updated);
     setInputText('');
     setReplyingTo(null);
+  replyComent(parentId,inputText)
   };
      const renderReply = ({ item=[] }) => (
   <Comment

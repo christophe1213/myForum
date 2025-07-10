@@ -10,6 +10,7 @@ import { ThreadService } from "@/services/thread.services";
 import  BtnComment  from "@/components/BtnComment";
 import { ReplyService } from "@/services/replies.services";
 import { useAuth } from "@/context/AuthContext";
+import { ReplyCommentService } from "@/services/ReplyComment.services";
 export default function Forum(){
     
     const {id}=useLocalSearchParams()
@@ -53,6 +54,21 @@ export default function Forum(){
       setShowComment(false)
     }
 
+    const handleReplyComment=(commentId,text)=>{
+      const replyComment={
+        replyId:commentId,
+        author:user.name,
+        userId:user.id,
+        content:text,
+        time:new Date()
+      }
+      ReplyCommentService.createReplyComment(commentId,replyComment).then((r)=>{
+        console.log('reponse commentaire envoyer')
+      }).catch((e)=>{
+        console.error(e)
+      })
+
+    } 
     useEffect(()=>{
         ThreadService.getThread(id).then((r)=>{
           if(r!==null){
@@ -105,7 +121,7 @@ export default function Forum(){
             </View>
             </View>
             <ListComments replies={replies}
-            
+              replyComent={handleReplyComment}
             />
 
     </SafeAreaView>
