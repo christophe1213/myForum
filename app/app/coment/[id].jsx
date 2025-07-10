@@ -3,15 +3,21 @@ import { View, Text, FlatList, SafeAreaView, TouchableOpacity, StyleSheet } from
 // import { conversation } from "@/data"
 import { Ionicons } from '@expo/vector-icons'
 import { getByidForum } from "@/api/apiForum";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Reaction from '@/components/Reaction'
 import { ListComments } from "@/components/Comment";
+import { ThreadService } from "@/services/thread.services";
 export default function Forum(){
     
     const {id}=useLocalSearchParams()
     const conversation=getByidForum(id)
     const [likes,setLikes]=useState(0)
-     const [likePressed, setLikePressed] = useState(false);
+    const [likePressed, setLikePressed] = useState(false);
+    const [author,setAuthor]=useState('')
+    const [title,setTitle]=useState('')
+    const [replies,setReplies]=useState([])
+    const [description,setDesciption]=useState('')
+    
     const handleLike=()=>{
       if(!likePressed){
         setLikes(likes+1)
@@ -21,6 +27,22 @@ export default function Forum(){
         setLikePressed(false)
       }
     }
+
+    useEffect(()=>{
+        ThreadService.getThread(id).then((r)=>{
+          if(r!==null){
+            setTitle(r.title)
+            setDesciption(r.description)
+            setReplies(r.replies)
+            setLikes(r.nbLike)
+            setAuthor(r.author.name)
+          }
+          console.log("dans le page theads ")
+          console.log(r)
+        }).catch((e)=>{
+          console.error(e)
+        })
+    },[])
    
     
     return(
@@ -31,10 +53,10 @@ export default function Forum(){
             </TouchableOpacity>
 
             <View style={styles.topicCard}>
-                  <Text style={styles.topicTitle}>{conversation.title}</Text>
-                  <Text style={styles.topicMeta}>{conversation.author} · {conversation.time} · in General</Text>
-                  <Text style={styles.topicContent}>{conversation.content}</Text>
-                  <Text style={styles.topicMeta}>{conversation.replies.length} replies</Text>
+                  <Text style={styles.topicTitle}> {title} </Text>
+                  <Text style={styles.topicMeta}> {author} · {conversation.time}  · en general</Text>
+                  <Text style={styles.topicContent}>{description}</Text>
+                  <Text style={styles.topicMeta}> {replies.length}  réponse</Text>
                   <View style={styles.reactions}>
                   
                     <Reaction likePressed={likePressed}

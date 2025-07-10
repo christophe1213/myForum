@@ -42,7 +42,10 @@ const CreateDiscussionScreen: React.FC = () => {
        title:discussion.title,
         description:discussion.content,
         author:user,
-        createdAt:new Date()
+        createdAt:new Date(),
+        replies:[],
+        nbLike:0,
+        nbDislike:0
     })
     // Reset form
     setDiscussion({ title: '', content: '' });

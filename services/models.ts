@@ -12,7 +12,9 @@ export type Thread = {
   description:string
   author: User;
   replies: Reply[];
-  createdAt:Date
+  createdAt:Date,
+  nbLike:number,
+  nbDislike:number
 };
 export type User = {
   id: string;
