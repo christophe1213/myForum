@@ -7,12 +7,14 @@ import { useEffect, useState } from "react";
 import Reaction from '@/components/Reaction'
 import { ListComments } from "@/components/Comment";
 import { ThreadService } from "@/services/thread.services";
+import  BtnComment  from "@/components/BtnComment";
 export default function Forum(){
     
     const {id}=useLocalSearchParams()
     const conversation=getByidForum(id)
     const [likes,setLikes]=useState(0)
     const [likePressed, setLikePressed] = useState(false);
+    const [showComment,setShowComment]=useState(false)
     const [author,setAuthor]=useState('')
     const [title,setTitle]=useState('')
     const [replies,setReplies]=useState([])
@@ -26,6 +28,18 @@ export default function Forum(){
         setLikes(likes-1)
         setLikePressed(false)
       }
+    }
+    
+
+    const handleComent=(text)=>{
+      const newComment = {
+        id: Date.now().toString(),
+        author: 'You',
+        content: text,
+        time: new Date(),
+        responses: []
+      };
+      setReplies([newComment, ...replies]);
     }
 
     useEffect(()=>{
@@ -62,6 +76,12 @@ export default function Forum(){
                     <Reaction likePressed={likePressed}
                         handleLike={handleLike}
                         likes={likes}
+                    />
+                    <BtnComment
+                        show={showComment}
+                        showInputComment={()=>setShowComment(true)}
+                        nbComment={0}
+                        handleSendReply={handleComent}
                     />
                   </View>
             </View>
