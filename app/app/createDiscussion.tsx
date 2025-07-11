@@ -10,7 +10,8 @@ import {
 } from 'react-native';
 import { Thread } from '@/services/models';
 import { useAuth } from '@/context/AuthContext';
-import { ThreadService } from '@/services/thread.services';
+// import {Service } from '@/services/thread.services';
+import { PostService } from '@/services/posts.services';
 interface Discussion {
   title: string;
   content: string;
@@ -38,14 +39,16 @@ const CreateDiscussionScreen: React.FC = () => {
 
     Alert.alert('Succès', 'Discussion créée avec succès !');
  
-    await  ThreadService.createThread({
+    await  PostService.createPost({
        title:discussion.title,
         description:discussion.content,
-        author:user,
+        userId:user.id,
+        author:user.name,
         createdAt:new Date(),
         replies:[],
         nbLike:0,
-        nbDislike:0
+        nbDislike:0,
+        nbComments:0
     })
     // Reset form
     setDiscussion({ title: '', content: '' });

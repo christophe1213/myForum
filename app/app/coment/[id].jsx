@@ -42,11 +42,18 @@ export default function Forum(){
         author: user.name,
         content: text,
         time: new Date(),
-        responses: []
+        idThread:id
+      
       };
-      ReplyService.createReply(id,newComment).then((r)=>{
-        console.log('replies créer avec succes')
-        console.log(r)
+      // ReplyService.createReply(id,newComment).then((r)=>{
+      //   console.log('replies créer avec succes')
+      //   console.log(r)
+      // }).catch((e)=>{
+      //   console.error(e)
+      // })
+
+      ReplyCommentService.createReplyComment(id,newComment).then((r)=>{
+        console.log('commentaire bien ce passé')
       }).catch((e)=>{
         console.error(e)
       })

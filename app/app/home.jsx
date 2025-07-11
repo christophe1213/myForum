@@ -4,44 +4,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@/context/AuthContext';
 import { BtnAdd } from '@/components/BtnAdd';
 import { Link, useRouter } from 'expo-router';
-import { ThreadService } from '@/services/thread.services';
-const discussions = [
-  {
-    id: '1',
-    title: 'Welcome to the Forum!',
-    description: 'Feel free to introduce yourself and get to know other members.',
-    author: 'Admin',
-    time: '2h ago',
-    replies: 25,
-  },
-  {
-    id: '2',
-    title: 'How to Improve Navigation?',
-    description: "I'm looking for suggestions on how to make the navigation more user-friendly.",
-    author: 'Alex',
-    time: '5h ago',
-    replies: 12,
-  },
-  {
-    id: '3',
-    title: 'Best Coding Practices',
-    description: 'Share your tips and experiences on writing clean and efficient code.',
-    author: 'developer42',
-    time: '1d ago',
-    replies: 8,
-  },
-  {
-    id: '4',
-    title: 'Favorite Programming Languages',
-    description: 'Which programming languages do you prefer and why?',
-    author: 'Jordan',
-    time: '1d ago',
-    replies: 17,
-  },
-];
+// import { ThreadService } from '@/services/thread.services';
+import { PostService } from '@/services/posts.services';
 export default function home() {
   const {user}=useAuth()
-  const renderItem = ({ item={title:'',description:'',time:'',replies:[],author:{name:''}} }) => (
+  const renderItem = ({ item={title:'',description:'',time:'',nbComments:0,author:'0',userId:'',nbLike:'',nbDislike:'0'} }) => (
    
       <Link href={{pathname:'/app/coment/[id]',params:{id:item.id}}}>
        <View style={styles.card}>
@@ -55,16 +22,22 @@ export default function home() {
    const [threads,setThreads]=useState([{
     id:"", 
     title: "",
-  userId: "",
-  author:{name:''},
-  replies: []
+    userId: "",
+    author:'',
+    nbComments:0
    }])
   useEffect(()=>{
-    ThreadService.getAllThreads().then((r)=>{
+    // ThreadService.getAllThreads().then((r)=>{
+    //   console.log(r)
+    //   setThreads(r)
+    // }).catch((e)=>{
+    //   console.error(e)
+    // })
+    PostService.getAllPosts().then((r)=>{
       console.log(r)
-      setThreads(r)
+      if(r!=null)setThreads(r)
     }).catch((e)=>{
-      console.error(e)
+      console.error((e))
     })
   },[])
 
