@@ -1,18 +1,18 @@
+import { useAuth } from '@/context/AuthContext';
+import "@/global.css";
+import { loginUser } from '@/services/auth';
+import { UserService } from '@/services/users.services';
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-  View,
+  SafeAreaView,
+  StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  SafeAreaView,
-  Alert,
-  ToastAndroid
+  ToastAndroid,
+  TouchableOpacity
 } from 'react-native';
-import { registerUser,loginUser } from '@/services/auth';
-import { useRouter } from 'expo-router';
-import { useAuth } from '@/context/AuthContext';
-import { UserService } from '@/services/users.services';
+
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

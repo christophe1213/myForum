@@ -12,6 +12,12 @@
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
-, "app/index.jsx", "app/app/forum/[id].jsx", "components/Discussion.jsx", "app/app/home.jsx", "context/AuthContext.jsx"  ]
+    "expo-env.d.ts",
+    "app/index.jsx",
+    "app/app/forum/[id].jsx",
+    "components/Discussion.jsx",
+    "app/app/home.jsx",
+    "context/AuthContext.jsx",
+    "nativewind-env.d.ts"
+  ]
 }
