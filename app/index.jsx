@@ -10,11 +10,13 @@ import WelcomeScreen from "@/components/Welcome";
 import TopicDetail from "@/app-example/app/(tabs)/conversation";
 import Forum from '@/app/app/coment/[id]'
 import TestComment from '@/app/app/coment/test2'
+import NotificationsScreen from '@/app/NotificationScreen'
 export default function Index() {
   return (
     <>
     {/* <TestComment></TestComment> */}
-      <WelcomeScreen/>
+      {/* <WelcomeScreen/> */}
+      <NotificationsScreen></NotificationsScreen>
     </>
   //  <LoginScreen/>/
 
