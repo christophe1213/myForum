@@ -12,6 +12,7 @@ import { ReplyService } from "@/services/replies.services";
 import { useAuth } from "@/context/AuthContext";
 import { CommentService } from "@/services/comment.service";
 import { PostService } from "@/services/posts.services";
+import { listenToComments } from "@/services/realTime.service";
 export default function Forum(){
     
     const {id}=useLocalSearchParams()
@@ -85,6 +86,8 @@ export default function Forum(){
           console.error(e)
         })
 
+         const unsubscribe = listenToComments(id, setReplies)
+        return ()=>unsubscribe()
     },[])
    
     return(
