@@ -14,7 +14,7 @@ export default function home() {
        <View style={styles.card}>
           <Text style={styles.title}>{item.title}</Text>
           <Text style={styles.description}>{item.description}</Text>
-          <Text style={styles.meta}>{item.author.name} · {item.time} ·  replies</Text>
+          <Text style={styles.meta}>{item.author} · {item.time} · {item.nbComments}  replies</Text>
         </View>
           </Link>
   );

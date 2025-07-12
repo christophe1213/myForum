@@ -45,7 +45,6 @@ const CreateDiscussionScreen: React.FC = () => {
         userId:user.id,
         author:user.name,
         createdAt:new Date(),
-        replies:[],
         nbLike:0,
         nbDislike:0,
         nbComments:0

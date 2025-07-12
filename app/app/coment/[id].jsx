@@ -10,7 +10,8 @@ import { ThreadService } from "@/services/thread.services";
 import  BtnComment  from "@/components/BtnComment";
 import { ReplyService } from "@/services/replies.services";
 import { useAuth } from "@/context/AuthContext";
-import { ReplyCommentService } from "@/services/ReplyComment.services";
+import { CommentService } from "@/services/comment.service";
+import { PostService } from "@/services/posts.services";
 export default function Forum(){
     
     const {id}=useLocalSearchParams()
@@ -38,27 +39,19 @@ export default function Forum(){
 
     const handleComent=(text)=>{
       const newComment = {
-        id: Date.now().toString(),
         author: user.name,
         content: text,
         time: new Date(),
-        idThread:id
-      
+        commentId:id
       };
-      // ReplyService.createReply(id,newComment).then((r)=>{
-      //   console.log('replies créer avec succes')
-      //   console.log(r)
-      // }).catch((e)=>{
-      //   console.error(e)
-      // })
-
-      ReplyCommentService.createReplyComment(id,newComment).then((r)=>{
-        console.log('commentaire bien ce passé')
+      CommentService.create(newComment).then((r)=>{
+        console.log("commentaire bien passé")
+        setReplies([newComment, ...replies]);
+        setShowComment(false)
+      
       }).catch((e)=>{
         console.error(e)
       })
-      setReplies([newComment, ...replies]);
-      setShowComment(false)
     }
 
     const handleReplyComment=(commentId,text)=>{
@@ -69,15 +62,11 @@ export default function Forum(){
         content:text,
         time:new Date()
       }
-      ReplyCommentService.createReplyComment(commentId,replyComment).then((r)=>{
-        console.log('reponse commentaire envoyer')
-      }).catch((e)=>{
-        console.error(e)
-      })
+    
 
     } 
     useEffect(()=>{
-        ThreadService.getThread(id).then((r)=>{
+        PostService.getPost(id).then((r)=>{
           if(r!==null){
             setTitle(r.title)
             setDesciption(r.description)
@@ -88,12 +77,9 @@ export default function Forum(){
         }).catch((e)=>{
           console.error(e)
         })
-        ReplyService.getReplies(id).then((r)=>{
-          
-          if(r!==null){
-            setReplies(r)
-          }
-          console.log("replies")
+       
+        CommentService.getComments(id).then((r)=>{
+          if(r!=null)setReplies(r)
           console.log(r)
         }).catch((e)=>{
           console.error(e)
