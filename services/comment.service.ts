@@ -8,7 +8,8 @@ import {
   deleteDoc,
   query,
   increment,
-  where
+  where,
+  orderBy
 } from "firebase/firestore";
 import { db } from "./FirebaseService";
 
@@ -34,7 +35,7 @@ export const CommentService = {
 
   // 🔹 Lister les commentaires d’une POST
   async getComments(replyId: string): Promise<Comment[]> {
-    const q = query(CommentsRef, where("commentId", "==", replyId));
+    const q = query(CommentsRef, where("commentId", "==", replyId), orderBy('time', 'desc'));
     const snapshot = await getDocs(q);
     
     return snapshot.docs.map(doc => ({

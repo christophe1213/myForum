@@ -32,3 +32,12 @@ export type User = {
   email: string;
   role?: string;
 };
+export interface Notification {
+  id?: string;
+  userId: string; // Le destinataire
+  title: string;
+  body: string;
+  isRead: boolean;
+  type?: 'like' | 'comment' | 'reply' | 'follow';
+  createdAt: Date;
+}

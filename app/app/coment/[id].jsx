@@ -43,7 +43,7 @@ export default function Forum(){
         author: user.name,
         content: text,
         time: new Date(),
-        commentId:id
+        postId:id
       };
       CommentService.create(newComment).then((r)=>{
         console.log("commentaire bien passé")
@@ -81,6 +81,7 @@ export default function Forum(){
        
         CommentService.getComments(id).then((r)=>{
           if(r!=null)setReplies(r)
+
           console.log(r)
         }).catch((e)=>{
           console.error(e)
