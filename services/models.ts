@@ -7,7 +7,7 @@ export type Reply = {
 };
 
 export type Thread = {
-    id?:string
+  id?:string
   title: string;
   description:string
   author: User;
@@ -32,7 +32,7 @@ export type User = {
   email: string;
   role?: string;
 };
-export interface Notification {
+export type Notification ={
   id?: string;
   userId: string; // Le destinataire
   title: string;
@@ -40,4 +40,5 @@ export interface Notification {
   isRead: boolean;
   type?: 'like' | 'comment' | 'reply' | 'follow';
   createdAt: Date;
+  lien:string
 }

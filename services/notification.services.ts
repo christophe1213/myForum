@@ -20,7 +20,7 @@ export const NotificationService = {
   async sendNotification(notification: Omit<Notification, 'id'>) {
     await addDoc(notificationCollection, {
       ...notification,
-      createdAt: Timestamp.fromDate(notification.createdAt),
+    
       isRead: false,
     });
   },

@@ -13,6 +13,7 @@ import { useAuth } from "@/context/AuthContext";
 import { CommentService } from "@/services/comment.service";
 import { PostService } from "@/services/posts.services";
 import { listenToComments } from "@/services/realTime.service";
+import { NotificationService } from "@/services/notification.services";
 export default function Forum(){
     
     const {id}=useLocalSearchParams()
@@ -22,6 +23,7 @@ export default function Forum(){
     const [likePressed, setLikePressed] = useState(false);
     const [showComment,setShowComment]=useState(false)
     const [author,setAuthor]=useState('')
+    const [idAuthor,setidAuthor]=useState('')
     const [title,setTitle]=useState('')
     const [replies,setReplies]=useState([])
     const [description,setDesciption]=useState('')
@@ -38,21 +40,40 @@ export default function Forum(){
     }
     
 
-    const handleComent=(text)=>{
+    const handleComent=async(text)=>{
       const newComment = {
         author: user.name,
         content: text,
         time: new Date(),
         postId:id
       };
-      CommentService.create(newComment).then((r)=>{
-        console.log("commentaire bien passé")
-        setReplies([newComment, ...replies]);
-        setShowComment(false)
+      try{
+          await CommentService.create(newComment)
+          setShowComment(false)
+          try {
+            await NotificationService.sendNotification({
+              userId: idAuthor,
+              title: `${user.name} a commenté votre poste`,
+              type: "comment",
+              isRead: false,
+              time: new Date(),
+              lien: `coment/${id}`
+            });
+            console.log("notification reussi")
+          } catch (notifError) {
+              console.warn("Erreur lors de l'envoi de la notification :", notifError);
+          }
+          }catch(e){
+            console.error(e)
+        }
+      // CommentService.create(newComment).then((r)=>{
+      //   console.log("commentaire bien passé")
+      //   setReplies([newComment, ...replies]);
+      //   setShowComment(false)
       
-      }).catch((e)=>{
-        console.error(e)
-      })
+      // }).catch((e)=>{
+      //   console.error(e)
+      // })
     }
 
     const handleReplyComment=(commentId,text)=>{
@@ -72,7 +93,8 @@ export default function Forum(){
             setTitle(r.title)
             setDesciption(r.description)
             setLikes(r.nbLike)
-            setAuthor(r.author.name)
+            setAuthor(r.author)
+            setidAuthor(r.userId)
           }
         
         }).catch((e)=>{
@@ -87,7 +109,7 @@ export default function Forum(){
           console.error(e)
         })
 
-         const unsubscribe = listenToComments(id, setReplies)
+        const unsubscribe = listenToComments(id, setReplies)
         return ()=>unsubscribe()
     },[])
    

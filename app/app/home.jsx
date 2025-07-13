@@ -63,9 +63,14 @@ export default function home() {
           <Ionicons name="mail-outline" size={24} color="#6c757d" />
           <Text style={styles.navText}>Messages</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity style={styles.navItem}
+          onPress={()=>{
+             const router = useRouter()
+               router.push('/app/NotificationScreen')
+          }}
+        >
           <Ionicons name="person-outline" size={24} color="#6c757d" />
-          <Text style={styles.navText}>Activity</Text>
+          <Text style={styles.navText}>Notification</Text>
         </TouchableOpacity>
       </View>
 
