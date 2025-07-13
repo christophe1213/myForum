@@ -22,7 +22,13 @@ export default function TabLayout() {
       <Tabs.Screen
         name="NotificationScreen"
         options={{
-          title: 'notifications '+unreadCount,
+          title: 'notifications ',
+          tabBarBadge:unreadCount>0?unreadCount:'',
+           tabBarBadgeStyle: {
+            backgroundColor: "#e0245e", // style moderne type Instagram / Messenger
+            color: "white",
+            fontSize: 12,
+          },
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="bell" color={color} />,
         }}
       />
