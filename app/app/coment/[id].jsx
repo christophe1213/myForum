@@ -64,6 +64,7 @@ export default function Forum(){
               console.warn("Erreur lors de l'envoi de la notification :", notifError);
           }
           }catch(e){
+            console.log('erreur creation comment')
             console.error(e)
         }
     }

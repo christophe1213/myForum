@@ -16,7 +16,7 @@ import { db } from "./FirebaseService";
 // ✅ Modèle TypeScript de Comment
 export interface Comment {
   id?: string;
-  commentId: string; // 
+  postId: string; // 
   author: string;
   content: string;
   time: any; // Firebase Timestamp ou Date
@@ -30,12 +30,12 @@ export const CommentService = {
     // const commentWithReplyId = { ...comment };
     const commentRef = doc(CommentsRef);
     await setDoc(commentRef, comment);
-    await this.incrementField(comment.commentId,"nbComments",1)
+    await this.incrementField(comment.postId,"nbComments",1)
   },
 
   // 🔹 Lister les commentaires d’une POST
   async getComments(replyId: string): Promise<Comment[]> {
-    const q = query(CommentsRef, where("commentId", "==", replyId), orderBy('time', 'desc'));
+    const q = query(CommentsRef, where("postId", "==", replyId), orderBy('time', 'desc'));
     const snapshot = await getDocs(q);
     
     return snapshot.docs.map(doc => ({
