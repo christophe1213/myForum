@@ -66,14 +66,6 @@ export default function Forum(){
           }catch(e){
             console.error(e)
         }
-      // CommentService.create(newComment).then((r)=>{
-      //   console.log("commentaire bien passé")
-      //   setReplies([newComment, ...replies]);
-      //   setShowComment(false)
-      
-      // }).catch((e)=>{
-      //   console.error(e)
-      // })
     }
 
     const handleReplyComment=(commentId,text)=>{

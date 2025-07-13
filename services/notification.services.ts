@@ -30,13 +30,13 @@ export const NotificationService = {
     const q = query(
       notificationCollection,
       where('userId', '==', userId),
-      orderBy('createdAt', 'desc')
+      orderBy('time', 'desc')
     );
     const snapshot = await getDocs(q);
     return snapshot.docs.map(doc => ({
       id: doc.id,
       ...(doc.data() as Omit<Notification, 'id'>),
-      createdAt: (doc.data().createdAt as Timestamp).toDate(),
+      time: (doc.data().time as Timestamp).toDate(),
     }));
   },
 

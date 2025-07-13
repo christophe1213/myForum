@@ -2,7 +2,7 @@ import { useState } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
-
+import { TouchableOpacity } from "react-native";
 const staticNotifications = [
   {
     id: "1",
@@ -27,22 +27,25 @@ const staticNotifications = [
   },
 ];
 
-export const NotificationList = () => {
-  const [notifications] = useState(staticNotifications);
+export const NotificationList = ({notifications=[],read=()=>{}}) => {
+  // const [notifications] = useState(staticNotifications);
 
   const renderItem = ({ item }) => (
-    <View style={[styles.card, !item.isRead && styles.unread]}>
-      <Ionicons
-        name={item.type === "like" ? "heart-outline" : "chatbubble-ellipses-outline"}
-        size={24}
-        color={item.type === "like" ? "#e91e63" : "#007bff"}
-        style={styles.icon}
-      />
-      <View style={styles.textContainer}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.time}>{moment(item.time).fromNow()}</Text>
-      </View>
-    </View>
+    <TouchableOpacity onPress={()=>read(item.id,item.lien)}>
+      <View style={[styles.card, !item.isRead && styles.unread]}>
+          <Ionicons
+            name={item.type === "like" ? "heart-outline" : "chatbubble-ellipses-outline"}
+            size={24}
+            color={item.type === "like" ? "#e91e63" : "#007bff"}
+            style={styles.icon}
+          />
+          <View style={styles.textContainer}>
+            <Text style={styles.title}>{item.title}</Text>
+            <Text style={styles.time}>{moment(item.time).fromNow()}</Text>
+          </View>
+        </View>
+    </TouchableOpacity>
+  
   );
 
   return (
