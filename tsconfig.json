@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "app/index.jsx", "app/app/coments/[id].jsx", "components/Discussion.jsx", "app/app/home.jsx", "context/AuthContext.jsx", "app/app/createDiscussion.tsx", "components/Login.jsx", "components/SignUp.jsx", "components/Comment.jsx"  ]
+, "app/index.jsx", "app/app/coments/[id].jsx", "components/Discussion.jsx", "app/app/home.jsx", "context/AuthContext.jsx", "app/app/createDiscussion.tsx", "components/Login.jsx", "components/SignUp.jsx", "components/Comment.jsx", "app/TestNotify.jsx"  ]
 }
