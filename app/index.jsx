@@ -2,15 +2,15 @@ import { SafeAreaView,TouchableOpacity, Text, View,FlatList } from "react-native
 import { Link } from "expo-router";
 import { discussions } from "@/data";
 import { StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { BtnAdd } from "@/components/BtnAdd";
-import Discussions from "@/components/Discussion";
-import LoginScreen from "@/components/Login";
+// import { Ionicons } from "@expo/vector-icons";
+// import { BtnAdd } from "@/components/BtnAdd";
+// import Discussions from "@/components/Discussion";
+// import LoginScreen from "@/components/Login";
 import WelcomeScreen from "@/components/Welcome";
-import TopicDetail from "@/app-example/app/(tabs)/conversation";
-import Forum from '@/app/app/coment/[id]'
-import TestComment from '@/app/app/coment/test2'
-import NotificationsScreen from '@/app/app/NotificationScreen'
+// import TopicDetail from "@/app-example/app/(tabs)/conversation";
+// import Forum from '@/app/app/coment/[id]'
+// import TestComment from '@/app/app/coment/test2'
+// import NotificationsScreen from '@/app/app/NotificationScreen'
 export default function Index() {
   return (
     <>

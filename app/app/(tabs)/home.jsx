@@ -54,7 +54,7 @@ export default function home() {
         keyExtractor={item => item.id}
         contentContainerStyle={styles.list}
       />
-      <View style={styles.navBar}>
+      {/* <View style={styles.navBar}>
         <TouchableOpacity style={styles.navItem}>
           <Ionicons name="chatbubble-ellipses-outline" size={24} color="#007bff" />
           <Text style={styles.navText}>Discussions</Text>
@@ -72,7 +72,7 @@ export default function home() {
           <Ionicons name="person-outline" size={24} color="#6c757d" />
           <Text style={styles.navText}>Notification</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
 
      
       
