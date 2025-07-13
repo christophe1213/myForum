@@ -8,8 +8,8 @@ export default function Index() {
   return (
     <>
 
-      {/* <WelcomeScreen/> */}
-      <TestNotify></TestNotify>
+      <WelcomeScreen/>
+      {/* <TestNotify></TestNotify> */}
     </>
 
   

@@ -32,4 +32,23 @@ export const listenToComments=  (
     return unsubscribe; // Permet d’arrêter l’écoute si besoin
   }
 
-  
+  export const listenToNotifications=(
+    userId:string,
+    onUpdate: (comments: any[])=>void)=>{
+      const notificationCollection = collection(db, 'notifications'); 
+      const q = query(
+            notificationCollection,
+            where('userId', '==', userId),
+            orderBy('time', 'desc')
+          );
+      
+      const unsubscribe = onSnapshot(q, (snapshot: QuerySnapshot<DocumentData>) => {
+      const notifications = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      onUpdate(notifications); // ⬅️ Callback appelé avec les données à jour
+    });
+
+    return unsubscribe; // Permet d’arrêter l’écoute si besoin    
+  }

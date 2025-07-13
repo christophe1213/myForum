@@ -5,10 +5,12 @@ import { NotificationService } from "@/services/notification.services";
 import { useAuth } from "@/context/AuthContext";
 import { useRoute } from "@react-navigation/native";
 import { useRouter } from "expo-router";
+import { useNotifications } from '@/context/NotificationContext';
 export default function NotificationsScreen() {
   const {user}=useAuth()
-  const [notifications,setNotification]=useState([])
+  // const [notifications,setNotification]=useState([])
   const router= useRouter()
+  const {notifications}=useNotifications()
   const readNotify=async(notifyId,url='')=>{
       try{
        
@@ -20,13 +22,13 @@ export default function NotificationsScreen() {
       }
   }
   
-  useEffect(()=>{
-    NotificationService.getNotifications(user.id).then((r)=>{
-     if(r!=null) setNotification(r)
-    }).catch((e)=>{
-      console.error("il y a une erreur ",e)
-    })
-  },[])
+  // useEffect(()=>{
+  //   NotificationService.getNotifications(user.id).then((r)=>{
+  //    if(r!=null) setNotification(r)
+  //   }).catch((e)=>{
+  //     console.error("il y a une erreur ",e)
+  //   })
+  // },[])
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
