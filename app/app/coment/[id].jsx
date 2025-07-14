@@ -14,7 +14,7 @@ import { CommentService } from "@/services/comment.service";
 import { PostService } from "@/services/posts.services";
 import { listenToComments,listenToPostById } from "@/services/realTime.service";
 import { NotificationService } from "@/services/notification.services";
-// import moment from "moment";
+import moment from "moment";
 export default function Forum(){
     
     const {id}=useLocalSearchParams()
@@ -132,7 +132,8 @@ export default function Forum(){
 
             <View style={styles.topicCard}>
                   <Text style={styles.topicTitle}> {post.title} </Text>
-                  {/* <Text style={styles.topicMeta}> {post.author} · {moment(post.createdAt)}  · en general</Text> */}
+                  <Text style={styles.topicMeta}> {post.author} ·   · en general</Text>
+                  
                   <Text style={styles.topicContent}>{post.description}</Text>
                   <Text style={styles.topicMeta}> {replies.length}  réponse</Text>
                   <View style={styles.reactions}>
