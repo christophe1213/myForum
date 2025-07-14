@@ -6,51 +6,45 @@ import { getByidForum } from "@/api/apiForum";
 import { useEffect, useState } from "react";
 import Reaction from '@/components/Reaction'
 import { ListComments } from "@/components/Comment";
-import { ThreadService } from "@/services/thread.services";
 import  BtnComment  from "@/components/BtnComment";
-import { ReplyService } from "@/services/replies.services";
 import { useAuth } from "@/context/AuthContext";
 import { CommentService } from "@/services/comment.service";
-import { PostService } from "@/services/posts.services";
 import { listenToComments,listenToPostById } from "@/services/realTime.service";
 import { NotificationService } from "@/services/notification.services";
+import {ReactionService} from "@/services/reactionPost.service"
 import moment from "moment";
 export default function Forum(){
     
     const {id}=useLocalSearchParams()
-    const conversation=getByidForum(id)
     const {user }=useAuth()
-    const [likes,setLikes]=useState(0)
     const [likePressed, setLikePressed] = useState(false);
     const [showComment,setShowComment]=useState(false)
-    const [author,setAuthor]=useState('')
-    const [idAuthor,setidAuthor]=useState('')
-    const [title,setTitle]=useState('')
     const [replies,setReplies]=useState([])
-    const [description,setDesciption]=useState('')
     
     const [post,setPost]=useState({
       id:'',
       title:'',
       description:'',
-   
+      userId:'',
       author:'',
       createdAt:new Date(),
-      nbLike:0,
-      nbDislike:0,
+      nbLikes:0,
+      nbDislikes:0,
       nbComments:0
     })
 
 
     const handleLike=()=>{
       if(!likePressed){
-        setLikes(likes+1)
         setLikePressed(true)
       }else{
-        setLikes(likes-1)
         setLikePressed(false)
       }
+      console.log("dans le fonction handleLike")
+      ReactionService.react(user.id,post.id,"like")
     }
+
+    
     
 
     const handleComent=async(text)=>{
@@ -65,8 +59,8 @@ export default function Forum(){
           setShowComment(false)
           try {
             await NotificationService.sendNotification({
-              userId: idAuthor,
-              title: `${user.name} a commenté votre poste`,
+              userId: post.userId,
+              title: `${user.post} a commenté votre poste`,
               type: "comment",
               isRead: false,
               time: new Date(),
@@ -92,36 +86,25 @@ export default function Forum(){
       }
     
 
-    } 
+    }
+
     useEffect(()=>{
-        PostService.getPost(id).then((r)=>{
-          if(r!==null){
-            setTitle(r.title)
-            setDesciption(r.description)
-            setLikes(r.nbLike)
-            setAuthor(r.author)
-            setidAuthor(r.userId)
-          }
-        
-        }).catch((e)=>{
-          console.error(e)
-        })
-       
-        CommentService.getComments(id).then((r)=>{
-          if(r!=null)setReplies(r)
-
-          console.log(r)
-        }).catch((e)=>{
-          console.error(e)
-        })
-
         const unsubscribe = listenToComments(id, setReplies)
         return ()=>unsubscribe()
     },[])
+    
     useEffect(()=>{
         const unsubscribe = listenToPostById(id, setPost)
         return ()=>unsubscribe()
       },[])
+    
+    useEffect(()=>{
+      ReactionService.hasReacted(user.id,id,'like').then((r)=>{
+        setLikePressed(r)
+      }).catch((e)=>{
+        console.error(e)
+      })
+    },[])
     return(
      
         <>
@@ -140,7 +123,7 @@ export default function Forum(){
                   
                     <Reaction likePressed={likePressed}
                         handleLike={handleLike}
-                        likes={likes}
+                        likes={post.nbLikes}
                     />
                     <BtnComment
                         show={showComment}

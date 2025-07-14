@@ -2,7 +2,7 @@
 
 import { db } from './FirebaseService'; // db = firebase.firestore()
 
-import { collection, doc,setDoc, getDoc, getDocs, addDoc, updateDoc, deleteDoc, Timestamp } from 'firebase/firestore';
+import { collection,increment, doc,setDoc, getDoc, getDocs, addDoc, updateDoc, deleteDoc, Timestamp } from 'firebase/firestore';
 
 import {Post } from './models';
 
@@ -43,4 +43,11 @@ export const PostService = {
     const docRef = doc(db, "posts", id);
     await deleteDoc(docRef);
   },
-};
+
+  async incrementField(postId: string, field: "nbComments" | "nbLikes" | "nbDislikes", delta: number = 1) {
+    const docRef = doc(db, "posts", postId);
+    await updateDoc(docRef, {
+      [field]: increment(delta),
+    })
+  },
+}

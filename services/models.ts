@@ -42,3 +42,15 @@ export type Notification ={
   createdAt: Date;
   lien:string
 }
+
+// models.ts ou models/Reaction.ts
+export type ReactionType = 'like' | 'dislike';
+
+export interface Reaction {
+  id: string;
+  userId: string;
+  postId: string;
+  type: ReactionType;
+  createdAt: Date;
+}
+

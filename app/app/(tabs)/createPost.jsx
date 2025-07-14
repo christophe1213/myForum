@@ -36,8 +36,8 @@ const CreatePost=()=>{
                 userId:user.id,
                 author:user.name,
                 createdAt:new Date(),
-                nbLike:0,
-                nbDislike:0,
+                nbLikes:0,
+                nbDislikes:0,
                 nbComments:0
             })
             setDiscussion({ title: '', content: '' });
