@@ -16,10 +16,12 @@ import moment from "moment";
 export default function Forum(){
     
     const {id}=useLocalSearchParams()
-    const {user }=useAuth()
+    const {user}=useAuth()
+    const [disLikePressed,setDisLikePressed]=useState(false)
     const [likePressed, setLikePressed] = useState(false);
     const [showComment,setShowComment]=useState(false)
     const [replies,setReplies]=useState([])
+
     
     const [post,setPost]=useState({
       id:'',
@@ -42,6 +44,15 @@ export default function Forum(){
       }
       console.log("dans le fonction handleLike")
       ReactionService.react(user.id,post.id,"like")
+    }
+    const handleDislike=()=>{
+      if(!disLikePressed){
+        setDisLikePressed(true)
+      }else{
+        setDisLikePressed(false)
+      }
+      console.log("dans le fonction handleDisLike")
+      ReactionService.react(user.id,post.id,"dislike")
     }
 
     
@@ -104,6 +115,12 @@ export default function Forum(){
       }).catch((e)=>{
         console.error(e)
       })
+      ReactionService.hasReacted(user.id,id,'dislike').then((r)=>{
+        setDisLikePressed(r)
+      }).catch((e)=>{
+        console.error(e)
+      })
+
     },[])
     return(
      
@@ -121,10 +138,16 @@ export default function Forum(){
                   <Text style={styles.topicMeta}> {replies.length}  réponse</Text>
                   <View style={styles.reactions}>
                   
-                    <Reaction likePressed={likePressed}
-                        handleLike={handleLike}
-                        likes={post.nbLikes}
+                    <Reaction pressed={likePressed}
+                        onClick={handleLike}
+                        nb={post.nbLikes}
                     />
+                    <Reaction pressed={disLikePressed}
+                        onClick={handleDislike}
+                        nb={post.nbDislikes}
+                        type="dislike"
+                    />
+
                     <BtnComment
                         show={showComment}
                         showInputComment={()=>setShowComment(true)}

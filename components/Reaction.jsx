@@ -1,11 +1,15 @@
 import { TouchableOpacity,Text } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
 import { StyleSheet } from "react-native"
-export default function Reaction({handleLike=()=>{},likes=0,likePressed=false}){
-    return(
-            <TouchableOpacity onPress={handleLike} style={{ flexDirection: 'row', alignItems: 'center' }}>
-             <Ionicons name={likePressed ? "thumbs-up" : "thumbs-up-outline"} size={20} color={likePressed ? "blue" : "gray"} />
-              <Text style={styles.iconText}>{likes}</Text>
+export default function Reaction({onClick=()=>{},nb=0,pressed=false,type='like'}){
+ const iconName = type === 'dislike' ? 'thumbs-down' : 'thumbs-up';
+const iconVariant = pressed ? iconName : `${iconName}-outline`;
+
+  return(
+            <TouchableOpacity onPress={onClick} style={{ flexDirection: 'row', alignItems: 'center' }}>
+            
+            <Ionicons name={iconVariant} size={20} color={pressed ? "blue" : "gray"} />
+            <Text style={styles.iconText}>{nb}</Text>
               
           </TouchableOpacity>
     )
