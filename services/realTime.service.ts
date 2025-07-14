@@ -7,6 +7,7 @@ import {
   onSnapshot,
   QuerySnapshot,
   DocumentData,
+  doc
 } from 'firebase/firestore';
 import { db } from './FirebaseService';
 
@@ -52,3 +53,36 @@ export const listenToComments=  (
 
     return unsubscribe; // Permet d’arrêter l’écoute si besoin    
   }
+
+
+export const listenToPostById=(postId:string,onUpdate: ({}) => void)=>{
+  const postRef = doc(db, "posts", postId);
+
+  const unsubscribe = onSnapshot(postRef, (docSnapshot) => {
+    if (docSnapshot.exists()) {
+      onUpdate({
+        id: docSnapshot.id,
+        ...docSnapshot.data(),
+      });
+    } else {
+      onUpdate({}); // ou gérer l’absence du document
+    }
+  });
+  return unsubscribe
+}
+
+export const listenToPost=(onUpdate: ({}) => void)=>{
+  const postRef = doc(db, "posts");
+
+  const unsubscribe = onSnapshot(postRef, (docSnapshot) => {
+    if (docSnapshot.exists()) {
+      onUpdate({
+        
+        ...docSnapshot.data(),
+      });
+    } else {
+      onUpdate({}); // ou gérer l’absence du document
+    }
+  });
+  return unsubscribe
+} 

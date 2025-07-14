@@ -1,7 +1,7 @@
 
 import { View, Text, StyleSheet, TouchableOpacity, TextInput,FlatList } from 'react-native';
 import { useEffect, useState } from 'react';
-
+import moment from "moment"
 export function ListComments({replies=[],replyComent=()=>{}}){
     const [replyingTo, setReplyingTo] = useState(null);
     const [inputText,setInputText]=useState('')
@@ -70,8 +70,8 @@ export default function Comment({
          <View style={styles.reply}>
       <Text style={styles.replyAuthor}>{comment.author}</Text>
       <Text style={styles.replyContent}>{comment.content}</Text>
-      <Text style={styles.replyTime}>{comment.time?.toDate?.().toLocaleString?.() || ''}</Text>
-
+      {/* <Text style={styles.replyTime}>{comment.time?.toDate?.().toLocaleString?.() || ''}</Text> */}
+<Text style={styles.replyTime}>{moment(comment.time.toDate()).fromNow()}</Text>
       <TouchableOpacity onPress={() => onStartReply(comment.id)}>
         <Text style={styles.replyLink}>Répondre</Text>
       </TouchableOpacity>

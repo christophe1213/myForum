@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -8,53 +7,49 @@ import {
   Alert,
   SafeAreaView,
 } from 'react-native';
-import { Thread } from '@/services/models';
 import { useAuth } from '@/context/AuthContext';
-// import {Service } from '@/services/thread.services';
 import { PostService } from '@/services/posts.services';
-interface Discussion {
-  title: string;
-  content: string;
-}
+import { useRouter } from 'expo-router';
+import { useState } from 'react';
+const CreatePost=()=>{
+     const [discussion, setDiscussion] = useState({
+        title: '',
+        content: '',
+      });
+    
+      const {user}=useAuth()
+    const handleChange = (field, value) => {
+        setDiscussion(prev => ({ ...prev, [field]: value }));
+      };
+    const handleSubmit = async() => {
+    
+        if (!discussion.title.trim() || !discussion.content.trim()) {
+            Alert.alert('Erreur', 'Tous les champs sont obligatoires.');
+            return;
+        }
+         console.log('Nouvelle discussion :', discussion);
+        
 
-const CreateDiscussionScreen: React.FC = () => {
-  const [discussion, setDiscussion] = useState<Discussion>({
-    title: '',
-    content: '',
-  });
+        await  PostService.createPost({
+               title:discussion.title,
+                description:discussion.content,
+                userId:user.id,
+                author:user.name,
+                createdAt:new Date(),
+                nbLike:0,
+                nbDislike:0,
+                nbComments:0
+            })
+            setDiscussion({ title: '', content: '' });
+            
+            Alert.alert('Succès', 'Votre post est créée avec succès !');
+            const router = useRouter()
+            router.push('/app/home')
+        
+        }
 
-  const {user}=useAuth()
-  const handleChange = (field: keyof Discussion, value: string) => {
-    setDiscussion(prev => ({ ...prev, [field]: value }));
-  };
-
-  const handleSubmit = async() => {
-    if (!discussion.title.trim() || !discussion.content.trim()) {
-      Alert.alert('Erreur', 'Tous les champs sont obligatoires.');
-      return;
-    }
-
-    // Ici tu peux appeler une API ou WebSocket pour envoyer le post
-    console.log('Nouvelle discussion :', discussion);
-
-    Alert.alert('Succès', 'Discussion créée avec succès !');
- 
-    await  PostService.createPost({
-       title:discussion.title,
-        description:discussion.content,
-        userId:user.id,
-        author:user.name,
-        createdAt:new Date(),
-        nbLike:0,
-        nbDislike:0,
-        nbComments:0
-    })
-    // Reset form
-    setDiscussion({ title: '', content: '' });
-  };
-
-  return (
-    <SafeAreaView style={styles.container}>
+    return(
+          <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Créer une discussion</Text>
 
       <TextInput
@@ -77,11 +72,9 @@ const CreateDiscussionScreen: React.FC = () => {
         <Text style={styles.buttonText}>Publier</Text>
       </TouchableOpacity>
     </SafeAreaView>
-  );
-};
-
-export default CreateDiscussionScreen;
-
+    )
+}
+export default CreatePost
 const styles = StyleSheet.create({
   container: {
     flex: 1,

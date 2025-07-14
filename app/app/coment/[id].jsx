@@ -12,8 +12,9 @@ import { ReplyService } from "@/services/replies.services";
 import { useAuth } from "@/context/AuthContext";
 import { CommentService } from "@/services/comment.service";
 import { PostService } from "@/services/posts.services";
-import { listenToComments } from "@/services/realTime.service";
+import { listenToComments,listenToPostById } from "@/services/realTime.service";
 import { NotificationService } from "@/services/notification.services";
+// import moment from "moment";
 export default function Forum(){
     
     const {id}=useLocalSearchParams()
@@ -28,6 +29,18 @@ export default function Forum(){
     const [replies,setReplies]=useState([])
     const [description,setDesciption]=useState('')
     
+    const [post,setPost]=useState({
+      id:'',
+      title:'',
+      description:'',
+   
+      author:'',
+      createdAt:new Date(),
+      nbLike:0,
+      nbDislike:0,
+      nbComments:0
+    })
+
 
     const handleLike=()=>{
       if(!likePressed){
@@ -105,8 +118,12 @@ export default function Forum(){
         const unsubscribe = listenToComments(id, setReplies)
         return ()=>unsubscribe()
     },[])
-   
+    useEffect(()=>{
+        const unsubscribe = listenToPostById(id, setPost)
+        return ()=>unsubscribe()
+      },[])
     return(
+     
         <>
         <SafeAreaView style={styles.container}>
             <TouchableOpacity style={styles.backButton}>
@@ -114,9 +131,9 @@ export default function Forum(){
             </TouchableOpacity>
 
             <View style={styles.topicCard}>
-                  <Text style={styles.topicTitle}> {title} </Text>
-                  <Text style={styles.topicMeta}> {author} · {conversation.time}  · en general</Text>
-                  <Text style={styles.topicContent}>{description}</Text>
+                  <Text style={styles.topicTitle}> {post.title} </Text>
+                  {/* <Text style={styles.topicMeta}> {post.author} · {moment(post.createdAt)}  · en general</Text> */}
+                  <Text style={styles.topicContent}>{post.description}</Text>
                   <Text style={styles.topicMeta}> {replies.length}  réponse</Text>
                   <View style={styles.reactions}>
                   

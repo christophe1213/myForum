@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, FlatList, SafeAreaView, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@/context/AuthContext';
 import { BtnAdd } from '@/components/BtnAdd';
-import { Link, useRouter } from 'expo-router';
-// import { ThreadService } from '@/services/thread.services';
+import { Link, useFocusEffect, useRouter } from 'expo-router';
 import { PostService } from '@/services/posts.services';
+import { listenToPost } from "@/services/realTime.service";
 export default function home() {
   const {user}=useAuth()
   const renderItem = ({ item={title:'',description:'',time:'',nbComments:0,author:'0',userId:'',nbLike:'',nbDislike:'0'} }) => (
@@ -26,21 +26,33 @@ export default function home() {
     author:'',
     nbComments:0
    }])
-  useEffect(()=>{
-    // ThreadService.getAllThreads().then((r)=>{
-    //   console.log(r)
-    //   setThreads(r)
-    // }).catch((e)=>{
-    //   console.error(e)
-    // })
-    PostService.getAllPosts().then((r)=>{
-      console.log(r)
-      if(r!=null)setThreads(r)
-    }).catch((e)=>{
-      console.error((e))
-    })
-  },[])
+  // useEffect(()=>{
 
+  //   PostService.getAllPosts().then((r)=>{
+  //     console.log(r)
+  //     if(r!=null)setThreads(r)
+  //   }).catch((e)=>{
+  //     console.error((e))
+  //   })
+  // },[])
+
+useFocusEffect(
+  useCallback(() => {
+    PostService.getAllPosts()
+      .then((r) => {
+        console.log(r);
+        if (r != null) setThreads(r);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+
+    // Optionnel : nettoyage quand l'écran perd le focus
+    return () => {
+      console.log("Nettoyage si nécessaire");
+    };
+  }, []) // ajoute ici des dépendances si nécessaire, ex: [user.id]
+);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -54,31 +66,12 @@ export default function home() {
         keyExtractor={item => item.id}
         contentContainerStyle={styles.list}
       />
-      {/* <View style={styles.navBar}>
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="chatbubble-ellipses-outline" size={24} color="#007bff" />
-          <Text style={styles.navText}>Discussions</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="mail-outline" size={24} color="#6c757d" />
-          <Text style={styles.navText}>Messages</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}
-          onPress={()=>{
-             const router = useRouter()
-               router.push('/app/NotificationScreen')
-          }}
-        >
-          <Ionicons name="person-outline" size={24} color="#6c757d" />
-          <Text style={styles.navText}>Notification</Text>
-        </TouchableOpacity>
-      </View> */}
-
+    
      
       
            <BtnAdd onClick={()=>{
               const router = useRouter()
-               router.push('/app/createDiscussion')
+               router.push('/app/createPost')
            }}/>
      
     </SafeAreaView>

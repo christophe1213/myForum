@@ -3,33 +3,7 @@ import { View, Text, FlatList, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
 import { TouchableOpacity } from "react-native";
-const staticNotifications = [
-  {
-    id: "1",
-    title: "Alice a commenté votre post",
-    type: "comment",
-    isRead: false,
-    time: new Date(Date.now() - 2 * 60 * 60 * 1000), // il y a 2 heures
-  },
-  {
-    id: "2",
-    title: "Bob a aimé votre réponse",
-    type: "like",
-    isRead: true,
-    time: new Date(Date.now() - 30 * 60 * 1000), // il y a 30 min
-  },
-  {
-    id: "3",
-    title: "Clara a répondu à votre commentaire",
-    type: "comment",
-    isRead: false,
-    time: new Date(Date.now() - 5 * 60 * 1000), // il y a 5 min
-  },
-];
-
 export const NotificationList = ({notifications=[],read=()=>{}}) => {
-  // const [notifications] = useState(staticNotifications);
-
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={()=>read(item.id,item.lien)}>
       <View style={[styles.card, !item.isRead && styles.unread]}>
@@ -41,7 +15,7 @@ export const NotificationList = ({notifications=[],read=()=>{}}) => {
           />
           <View style={styles.textContainer}>
             <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.time}>{moment(item.time).fromNow()}</Text>
+            <Text style={styles.time}>{moment(item.time.toDate()).fromNow()}</Text>
           </View>
         </View>
     </TouchableOpacity>

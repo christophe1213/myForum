@@ -13,7 +13,7 @@ export default function TabLayout() {
         }}
       />
     <Tabs.Screen
-        name="createDiscussion"
+        name="createPost"
         options={{
           title: 'créer un post',
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="plus-circle" color={color} />,
