@@ -34,38 +34,47 @@ export const NotificationList = ({notifications=[],read=()=>{}}) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
+    padding: 20,
   },
   card: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#f2f2f2",
-    padding: 12,
-    borderRadius: 10,
-    marginBottom: 10,
+    backgroundColor: "#FFFFFF", // Blanc pur
+    padding: 15,
+    borderRadius: 12, // Coins plus arrondis
+    marginBottom: 12,
+    shadowColor: "#000", // Ombre subtile
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 3,
   },
   unread: {
-    backgroundColor: "#e6f0ff",
+    backgroundColor: "#E6F0FF", // Bleu pastel doux pour non lu
+    borderLeftWidth: 4, // Barre latérale pour indiquer non lu
+    borderLeftColor: "#5A67D8", // Couleur primaire
   },
   icon: {
-    marginRight: 12,
+    marginRight: 15,
   },
   textContainer: {
     flex: 1,
   },
   title: {
-    fontSize: 15,
-    fontWeight: "500",
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#2C3E50", // Gris foncé élégant
   },
   time: {
-    fontSize: 12,
-    color: "#666",
+    fontSize: 13,
+    color: "#888888", // Gris clair
     marginTop: 4,
   },
   empty: {
     textAlign: "center",
-    color: "#999",
+    color: "#7F8C8D", // Gris neutre
     marginTop: 50,
     fontSize: 16,
+    fontWeight: "500",
   },
 });

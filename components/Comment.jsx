@@ -104,44 +104,77 @@ export default function Comment({
         </View>
 
       ))}
-       <TouchableOpacity onPress={() => onShowAllReplies(comment.id)}>
-          <Text style={{ color: 'blue', marginTop: 6 }}>Voir tous les sous-commentaires</Text>
+       <TouchableOpacity onPress={() => onShowAllReplies(comment.id)} style={styles.replyLink}>
+          <Text style={styles.replyLink}>Voir tous les sous-commentaires</Text>
         </TouchableOpacity>
     </View>
   
     )
 }
 const styles = StyleSheet.create({
-  reply: { marginBottom: 24 },
-  replyAuthor: { fontWeight: 'bold', fontSize: 14 },
-  replyContent: { fontSize: 14, color: '#333', marginTop: 4 },
-  replyTime: { fontSize: 12, color: '#999', marginTop: 4 },
-  replyLink: { fontSize: 13, color: '#007bff', marginTop: 6 },
-  replyInputContainer: { marginTop: 8 },
-  replyInput: {
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 6,
-    padding: 8,
+  list: {
+    paddingHorizontal: 20,
+    paddingTop: 10,
+  },
+  reply: {
+    backgroundColor: '#FFFFFF', // Fond blanc pour chaque commentaire
+    padding: 15,
+    borderRadius: 12,
+    marginBottom: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
+  },
+  replyAuthor: {
+    fontWeight: '700', // Plus audacieux
+    fontSize: 16,
+    color: '#2C3E50', // Gris foncé élégant
+    marginBottom: 4,
+  },
+  replyContent: {
+    fontSize: 15,
+    color: '#444444',
+    lineHeight: 22,
+  },
+  replyTime: {
+    fontSize: 12,
+    color: '#888888',
+    marginTop: 8,
+  },
+  replyLink: {
     fontSize: 14,
-    marginBottom: 8
+    color: '#5A67D8', // Couleur primaire douce
+    marginTop: 8,
+    fontWeight: '500',
+  },
+  replyInputContainer: { marginTop: 15 },
+  replyInput: {
+    borderColor: '#E0E0E0',
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 15,
+    marginBottom: 10,
+    backgroundColor: '#F8F8F8',
   },
   sendButton: {
-    backgroundColor: '#007bff',
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 6,
-    alignSelf: 'flex-start'
+    backgroundColor: '#5A67D8',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 8,
+    alignSelf: 'flex-end',
   },
-  sendButtonText: { color: 'white', fontSize: 14 },
+  sendButtonText: { color: 'white', fontSize: 15, fontWeight: '600' },
   subReply: {
-    marginTop: 10,
-    marginLeft: 16,
-    paddingLeft: 8,
+    marginTop: 12,
+    marginLeft: 20,
+    paddingLeft: 10,
     borderLeftWidth: 2,
-    borderColor: '#eee'
-  },
-    list: {
-    padding: 16,
+    borderLeftColor: '#E0E0E0', // Bordure plus douce
+    backgroundColor: '#FDFDFD', // Fond très légèrement différent
+    borderRadius: 8,
+    paddingVertical: 10,
   },
 });

@@ -178,37 +178,50 @@ export default function Forum(){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F8F8F8', // Fond légèrement gris
   },
   backButton: {
-    padding: 16,
+    padding: 20,
+    alignSelf: 'flex-start', // Aligner à gauche
   },
   topicCard: {
-    paddingHorizontal: 16,
-    paddingBottom: 8,
+    backgroundColor: '#FFFFFF', // Blanc pur pour la carte
+    paddingHorizontal: 20,
+    paddingVertical: 25,
+    borderRadius: 15, // Coins plus arrondis
+    marginHorizontal: 20,
+    marginBottom: 20,
+    shadowColor: '#000', // Ombre subtile
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 3,
   },
   topicTitle: {
-    fontSize: 22,
-    fontWeight: 'bold',
+    fontSize: 26,
+    fontWeight: '700',
+    marginBottom: 8,
+    color: '#2C3E50', // Gris foncé élégant
   },
   topicMeta: {
-    fontSize: 12,
-    color: '#888',
-    marginTop: 4,
+    fontSize: 13,
+    color: '#888888',
+    marginBottom: 15,
   },
   topicContent: {
-    fontSize: 14,
-    color: '#444',
-    marginTop: 8,
+    fontSize: 16,
+    color: '#444444',
+    lineHeight: 24,
+    marginBottom: 15,
   },
   reactions: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 12,
+    marginTop: 10,
   },
 
   list: {
-    padding: 16,
+    paddingHorizontal: 20,
   },
   reply: {
     marginBottom: 16,

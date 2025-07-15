@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, View, Text, StyleSheet } from "react-native";
 import { NotificationList } from "@/components/NotifcationList";
 import { NotificationService } from "@/services/notification.services";
 import { useAuth } from "@/context/AuthContext";
@@ -31,10 +31,37 @@ export default function NotificationsScreen() {
   // },[])
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Notifications</Text>
+      </View>
       <NotificationList notifications={notifications} 
         read={readNotify}
       />
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F8F8F8', // Fond légèrement gris
+  },
+  header: {
+    padding: 20,
+    backgroundColor: '#FFFFFF', // Fond blanc pour l'en-tête
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    elevation: 2,
+    marginBottom: 10,
+  },
+  headerTitle: {
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#2C3E50',
+  },
+});

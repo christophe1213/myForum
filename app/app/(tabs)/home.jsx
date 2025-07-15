@@ -69,10 +69,12 @@ useFocusEffect(
     
      
       
-           <BtnAdd onClick={()=>{
-              const router = useRouter()
-               router.push('/app/createPost')
-           }}/>
+           <View style={styles.floatingButtonContainer}>
+             <BtnAdd onClick={()=>{
+                const router = useRouter()
+                 router.push('/app/createPost')
+             }}/>
+           </View>
      
     </SafeAreaView>
   );
@@ -81,62 +83,71 @@ useFocusEffect(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F8F8F8', // Fond légèrement gris pour un contraste doux
   },
   header: {
-    padding: 16,
+    padding: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: '#FFFFFF', // Fond blanc pour l'en-tête
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0', // Bordure subtile
+    shadowColor: '#000', // Ombre subtile pour l'en-tête
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    elevation: 2,
   },
   headerTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+    fontSize: 28, // Plus grand
+    fontWeight: '700', // Plus audacieux
+    color: '#2C3E50', // Gris foncé élégant
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: '500',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    fontSize: 20, // Plus grand
+    fontWeight: '600',
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    color: '#333333', // Gris foncé
   },
   list: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
+    paddingTop: 10,
   },
   card: {
-    backgroundColor: '#f9f9f9',
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 12,
+    backgroundColor: '#FFFFFF', // Blanc pur pour les cartes
+    padding: 20,
+    borderRadius: 15, // Coins plus arrondis
+    marginBottom: 15, // Espacement cohérent
+    shadowColor: '#000', // Ombre subtile pour les cartes
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 3,
   },
   title: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#007bff',
+    fontSize: 18, // Plus grand
+    fontWeight: '700',
+    color: '#5A67D8', // Couleur primaire douce
+    marginBottom: 5,
   },
   description: {
-    fontSize: 14,
-    color: '#444',
+    fontSize: 15,
+    color: '#555555', // Gris moyen
     marginTop: 4,
+    lineHeight: 22, // Améliorer la lisibilité
   },
   meta: {
-    fontSize: 12,
-    color: '#888',
-    marginTop: 8,
+    fontSize: 13,
+    color: '#888888', // Gris clair
+    marginTop: 10,
   },
-  navBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingVertical: 12,
-    borderTopWidth: 1,
-    borderColor: '#ddd',
-    backgroundColor: '#fff',
-  },
-  navItem: {
-    alignItems: 'center',
-  },
-  navText: {
-    fontSize: 12,
-    color: '#6c757d',
-    marginTop: 4,
+  // Styles pour le bouton flottant (BtnAdd)
+  floatingButtonContainer: {
+    position: 'absolute',
+    bottom: 30,
+    right: 20,
+    zIndex: 10,
   },
 });
