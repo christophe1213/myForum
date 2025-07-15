@@ -72,7 +72,7 @@ export default function Forum(){
           try {
             await NotificationService.sendNotification({
               userId: post.userId,
-              title: `${user.post} a commenté votre poste`,
+              title: `${user.name} a commenté votre poste`,
               type: "comment",
               isRead: false,
               time: new Date(),

@@ -86,3 +86,21 @@ export const listenToPost=(onUpdate: ({}) => void)=>{
   });
   return unsubscribe
 } 
+
+export const listenToReplyComments = (
+  replyId: string,
+  onUpdate: (replies: any[]) => void
+) => {
+  const replyCommentsRef = collection(db, "replies");
+  const q = query(replyCommentsRef, where("parentCommentId", "==", replyId));
+
+  const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    const replies = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data() ,
+    }));
+    onUpdate(replies);
+  });
+
+  return unsubscribe; // pour arrêter l'écoute si besoin
+};

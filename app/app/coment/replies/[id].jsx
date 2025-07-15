@@ -1,12 +1,15 @@
 import { useFocusEffect } from "expo-router";
-import { useCallback, useState } from "react";
-import { getReplyComments } from "@/services/ReplyComment.services";
+import { useCallback, useEffect, useState } from "react";
+import { getReplyComments,addReplyToComment } from "@/services/ReplyComment.services";
 import { StyleSheet } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { View,Text,FlatList } from "react-native"
 import { CommentService } from "@/services/comment.service";
 import CommentInput from "@/components/CommentInput";
 import { useAuth } from "@/context/AuthContext";
+import { KeyboardAvoidingView } from "react-native";
+import { Platform } from "react-native";
+import { listenToComments, listenToReplyComments } from "@/services/realTime.service";
 export default function AllRepliesScreen() {
   const {  id } = useLocalSearchParams();
   const [data,setData]=useState([])
@@ -19,31 +22,35 @@ export default function AllRepliesScreen() {
     time:new Date()
 
   })
-  useFocusEffect(
+  // useFocusEffect(
     
-    useCallback(()=>{
-        if(id!='')
-        getReplyComments(id).then((r)=>{
-          console.log('donnée')
+  //   useCallback(()=>{
+  //       if(id!='')
+  //       getReplyComments(id).then((r)=>{
+  //         console.log('donnée')
        
-          if(r!==null)
-               setData(r)
-          console.log(r)
-        }).catch((e)=>{
-            console.error(e)
-        })
-        else console.log("comment id null ")
-        CommentService.getComment(id).then((r)=>{
-          setComment(r)
-        }).catch((e)=>{
-          console.error("error de récupération comment ",e)
-        })   
-        return()=>{
+  //         if(r!==null)
+  //              setData(r)
+  //         console.log(r)
+  //       }).catch((e)=>{
+  //           console.error(e)
+  //       })
+  //       else console.log("comment id null ")
+  //       CommentService.getComment(id).then((r)=>{
+  //         setComment(r)
+  //       }).catch((e)=>{
+  //         console.error("error de récupération comment ",e)
+  //       })   
+  //       return()=>{
             
-        }
-    },[])
+  //       }
+  //   },[])
     
-  )
+  // )
+  useEffect(()=>{
+    const unsubscribe=listenToReplyComments(id,setData)
+    return ()=> unsubscribe() 
+  },[])
   
 
   const handleReplyComment=()=>{
@@ -53,12 +60,19 @@ export default function AllRepliesScreen() {
       }).catch((e)=>{
         console.error(e)
       })
-
+      setNewComment('')
     }
 
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView 
+     style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      keyboardVerticalOffset={80}
+    >
+
+      
+   <View style={styles.container}>
       <Text style={styles.title}>Réponses à :</Text>
   
       <FlatList
@@ -76,6 +90,8 @@ export default function AllRepliesScreen() {
       <CommentInput value={newComment} onChangeText={setNewComment} onSubmit={handleReplyComment}  />
 
     </View>
+    </KeyboardAvoidingView>
+ 
   );
 }
 
