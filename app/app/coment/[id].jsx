@@ -3,7 +3,7 @@ import { View, Text, FlatList, SafeAreaView, TouchableOpacity, StyleSheet } from
 // import { conversation } from "@/data"
 import { Ionicons } from '@expo/vector-icons'
 import { getByidForum } from "@/api/apiForum";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Reaction from '@/components/Reaction'
 import { ListComments } from "@/components/Comment";
 import  BtnComment  from "@/components/BtnComment";
@@ -18,8 +18,7 @@ export default function Forum(){
     
     const {id}=useLocalSearchParams()
     const {user}=useAuth()
-    const [disLikePressed,setDisLikePressed]=useState(false)
-    const [likePressed, setLikePressed] = useState(false);
+    const [currentUserReactionType, setCurrentUserReactionType] = useState(null);
     const [showComment,setShowComment]=useState(false)
     const [replies,setReplies]=useState([])
 
@@ -37,24 +36,39 @@ export default function Forum(){
     })
 
 
-    const handleLike=()=>{
-      if(!likePressed){
-        setLikePressed(true)
-      }else{
-        setLikePressed(false)
+    const fetchUserReaction = useCallback(async () => {
+      if (!user?.id || !id) return;
+      try {
+        const hasLiked = await ReactionService.hasReacted(user.id, id, 'like');
+        if (hasLiked) {
+          setCurrentUserReactionType('like');
+          return;
+        }
+        const hasDisliked = await ReactionService.hasReacted(user.id, id, 'dislike');
+        if (hasDisliked) {
+          setCurrentUserReactionType('dislike');
+          return;
+        }
+        setCurrentUserReactionType(null); // No reaction
+      } catch (e) {
+        console.error("Error fetching user reaction:", e);
+        setCurrentUserReactionType(null);
       }
-      console.log("dans le fonction handleLike")
-      ReactionService.react(user.id,post.id,"like")
-    }
-    const handleDislike=()=>{
-      if(!disLikePressed){
-        setDisLikePressed(true)
-      }else{
-        setDisLikePressed(false)
-      }
-      console.log("dans le fonction handleDisLike")
-      ReactionService.react(user.id,post.id,"dislike")
-    }
+    }, [user?.id, id]);
+
+    const handleLike = async () => {
+      if (!user?.id || !post?.id) return;
+      console.log("dans le fonction handleLike");
+      await ReactionService.react(user.id, post.id, "like");
+      await fetchUserReaction(); // Re-fetch to update UI
+    };
+
+    const handleDislike = async () => {
+      if (!user?.id || !post?.id) return;
+      console.log("dans le fonction handleDisLike");
+      await ReactionService.react(user.id, post.id, "dislike");
+      await fetchUserReaction(); // Re-fetch to update UI
+    };
 
     
     
@@ -112,21 +126,11 @@ export default function Forum(){
     useEffect(()=>{
         const unsubscribe = listenToPostById(id, setPost)
         return ()=>unsubscribe()
-      },[])
+      },[id])
     
-    useEffect(()=>{
-      ReactionService.hasReacted(user.id,id,'like').then((r)=>{
-        setLikePressed(r)
-      }).catch((e)=>{
-        console.error(e)
-      })
-      ReactionService.hasReacted(user.id,id,'dislike').then((r)=>{
-        setDisLikePressed(r)
-      }).catch((e)=>{
-        console.error(e)
-      })
-
-    },[])
+    useEffect(() => {
+        fetchUserReaction();
+    }, [user?.id, id, fetchUserReaction]);
     return(
      
         <>
@@ -143,11 +147,12 @@ export default function Forum(){
                   <Text style={styles.topicMeta}> {replies.length}  réponse</Text>
                   <View style={styles.reactions}>
                   
-                    <Reaction pressed={likePressed}
+                    <Reaction userReactionType={currentUserReactionType}
                         onClick={handleLike}
                         nb={post.nbLikes}
+                        type="like"
                     />
-                    <Reaction pressed={disLikePressed}
+                    <Reaction userReactionType={currentUserReactionType}
                         onClick={handleDislike}
                         nb={post.nbDislikes}
                         type="dislike"

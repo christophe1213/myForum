@@ -31,27 +31,36 @@ export const ReactionService = {
     const snapshot = await getDocs(q);
     console.log("react ",type)
     if (snapshot.empty) {
-      // Pas de réaction existante → on en crée une
+      // No existing reaction: Add the new reaction
       await addDoc(ReactionCollection, {
         userId,
         postId,
         type,
         createdAt: Timestamp.now(),
       });
-      
-      await PostService.incrementField(postId,type=="like"?"nbLikes":"nbDislikes",1)
-
+      await PostService.incrementField(postId, type === "like" ? "nbLikes" : "nbDislikes", 1);
     } else {
-      // Réaction déjà existante → on met à jour le type
-      const docRef = snapshot.docs[0].ref;
-    //   await updateDoc(docRef, {
-    //     type,
-    //     createdAt: Timestamp.now(), // ou updatedAt si tu veux un autre champ
-    //   });
-        await this.removeReaction(userId,postId)
-        await PostService.incrementField(postId,type=="like"?"nbLikes":"nbDislikes",-1) 
+      // Existing reaction found
+      const existingDoc = snapshot.docs[0];
+      const existingReaction = existingDoc.data() as Reaction;
+      const docRef = existingDoc.ref;
 
-  
+      if (existingReaction.type === type) {
+        // User clicked the same reaction type again: Remove it (toggle off)
+        await deleteDoc(docRef);
+        await PostService.incrementField(postId, type === "like" ? "nbLikes" : "nbDislikes", -1);
+      } else {
+        // User clicked the opposite reaction type: Remove old, add new
+        // Decrement count for the old reaction type
+        await PostService.incrementField(postId, existingReaction.type === "like" ? "nbLikes" : "nbDislikes", -1);
+        // Update the existing document with the new type
+        await updateDoc(docRef, {
+          type,
+          createdAt: Timestamp.now(), // Update timestamp as well
+        });
+        // Increment count for the new reaction type
+        await PostService.incrementField(postId, type === "like" ? "nbLikes" : "nbDislikes", 1);
+      }
     }
   },
 

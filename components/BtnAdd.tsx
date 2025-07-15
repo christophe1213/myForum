@@ -1,6 +1,5 @@
-import { TouchableOpacity } from "react-native"
+import { TouchableOpacity , StyleSheet } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
-import { StyleSheet } from "react-native"
 export const BtnAdd=({onClick=()=>{}})=>{
     return(
         <>

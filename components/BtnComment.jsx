@@ -1,6 +1,5 @@
-import { TouchableOpacity,View,TextInput,Text } from "react-native"
+import { TouchableOpacity,View,TextInput,Text , StyleSheet } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
-import { StyleSheet } from "react-native"
 import { useState } from "react"
 import FloatingInput from './FloatingInput'
 export default function BtnComment({showInputComment=()=>{},nbComment=0,

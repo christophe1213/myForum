@@ -1,3 +1,9 @@
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import moment from 'moment';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 const testPost = {
   id: 'post1',
   title: 'Pourquoi React Native est génial ?',
@@ -20,12 +26,6 @@ const testPost = {
     },
   ],
 };
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import moment from 'moment';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { useNavigation } from '@react-navigation/native';
-import { useRouter } from 'expo-router';
 
 const PostScreen = () => {
   const [post, setPost] = useState(testPost);

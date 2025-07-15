@@ -1,7 +1,6 @@
-import { SafeAreaView,TouchableOpacity, Text, View,FlatList } from "react-native";
+import { SafeAreaView,TouchableOpacity, Text, View,FlatList , StyleSheet } from "react-native";
 import { Link } from "expo-router";
 import { discussions } from "@/data";
-import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { BtnAdd } from "@/components/BtnAdd";
 const renderItem = ({ item={title:'',description:'',time:'',replies:'',author:''} }) => {

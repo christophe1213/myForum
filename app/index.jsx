@@ -1,7 +1,6 @@
-import { SafeAreaView,TouchableOpacity, Text, View,FlatList } from "react-native";
+import { SafeAreaView,TouchableOpacity, Text, View,FlatList , StyleSheet } from "react-native";
 import { Link } from "expo-router";
 import { discussions } from "@/data";
-import { StyleSheet } from "react-native"
 import WelcomeScreen from "@/components/Welcome";
 // import TestNotify from '@/app/TestNotify'
 import PostScreen  from '@/app/post/test'

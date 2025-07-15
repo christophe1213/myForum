@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, Text, FlatList, StyleSheet , TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
-import { TouchableOpacity } from "react-native";
 export const NotificationList = ({notifications=[],read=()=>{}}) => {
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={()=>read(item.id,item.lien)}>

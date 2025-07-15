@@ -1,8 +1,6 @@
-import { SafeAreaView,FlatList } from  "react-native";
-import { StyleSheet } from "react-native";
+import { SafeAreaView,FlatList , StyleSheet , TextInput } from  "react-native";
 import Comment  from '@/components/Comment'
 import { useState } from "react";
-import { TextInput } from "react-native";
 const initialConversation = {
   title: 'Welcome to the forum',
   author: 'admin',

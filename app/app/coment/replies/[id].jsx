@@ -1,14 +1,10 @@
-import { useFocusEffect } from "expo-router";
+import { useFocusEffect , useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { getReplyComments,addReplyToComment } from "@/services/ReplyComment.services";
-import { StyleSheet } from "react-native";
-import { useLocalSearchParams } from "expo-router";
-import { View,Text,FlatList } from "react-native"
+import { StyleSheet , View,Text,FlatList , KeyboardAvoidingView , Platform } from "react-native";
 import { CommentService } from "@/services/comment.service";
 import CommentInput from "@/components/CommentInput";
 import { useAuth } from "@/context/AuthContext";
-import { KeyboardAvoidingView } from "react-native";
-import { Platform } from "react-native";
 import { listenToComments, listenToReplyComments } from "@/services/realTime.service";
 export default function AllRepliesScreen() {
   const {  id } = useLocalSearchParams();
