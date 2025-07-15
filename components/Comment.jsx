@@ -2,6 +2,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, TextInput,FlatList } from 'react-native';
 import { useEffect, useState } from 'react';
 import moment from "moment"
+import { useRouter } from 'expo-router';
 export function ListComments({replies=[],replyComent=()=>{}}){
     const [replyingTo, setReplyingTo] = useState(null);
     const [inputText,setInputText]=useState('')
@@ -29,6 +30,7 @@ export function ListComments({replies=[],replyComent=()=>{}}){
     setInputText('');
     setReplyingTo(null);
   replyComent(parentId,inputText)
+  console.log("dans commentaire   ")
   };
      const renderReply = ({ item=[] }) => (
   <Comment
@@ -59,24 +61,28 @@ useEffect(()=>{
 
 
 export default function Comment({
-     comment,
-  replyingTo,
-  inputText,
-  onStartReply,
-  onChangeText,
-  onSendReply
+    comment,
+    replyingTo,
+    inputText,
+    onStartReply,
+    onChangeText,
+    onSendReply
 }){
+  const router = useRouter()
+  const onShowAllReplies=(id)=>{
+     router.push({ pathname: '/app/coment/replies/[id]', params: { id } })
+  }
     return(
          <View style={styles.reply}>
       <Text style={styles.replyAuthor}>{comment.author}</Text>
       <Text style={styles.replyContent}>{comment.content}</Text>
-      {/* <Text style={styles.replyTime}>{comment.time?.toDate?.().toLocaleString?.() || ''}</Text> */}
-<Text style={styles.replyTime}>{moment(comment.time.toDate()).fromNow()}</Text>
+      
+      <Text style={styles.replyTime}>{moment(comment.time.toDate()).fromNow()}</Text>
       <TouchableOpacity onPress={() => onStartReply(comment.id)}>
         <Text style={styles.replyLink}>Répondre</Text>
       </TouchableOpacity>
 
-      {replyingTo === comment.id && (
+      {/* {replyingTo === comment.id && (
         <View style={styles.replyInputContainer}>
           <TextInput
             placeholder="Votre réponse..."
@@ -88,15 +94,19 @@ export default function Comment({
             <Text style={styles.sendButtonText}>Envoyer</Text>
           </TouchableOpacity>
         </View>
-      )}
+      )} */}
 
-      {comment.responses?.map(sub => (
+      {comment.replies?.map(sub => (
         <View key={sub.id} style={styles.subReply}>
           <Text style={styles.replyAuthor}>{sub.author}</Text>
-          <Text style={styles.replyContent}>{sub.content}</Text>
+          <Text style={styles.replyContent}>{sub.text}</Text>
           <Text style={styles.replyTime}>{sub.time?.toDate?.().toLocaleString?.() || ''}</Text>
         </View>
+
       ))}
+       <TouchableOpacity onPress={() => onShowAllReplies(comment.id)}>
+          <Text style={{ color: 'blue', marginTop: 6 }}>Voir tous les sous-commentaires</Text>
+        </TouchableOpacity>
     </View>
   
     )

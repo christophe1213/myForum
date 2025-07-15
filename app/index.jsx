@@ -3,13 +3,17 @@ import { Link } from "expo-router";
 import { discussions } from "@/data";
 import { StyleSheet } from "react-native"
 import WelcomeScreen from "@/components/Welcome";
-import TestNotify from '@/app/TestNotify'
+// import TestNotify from '@/app/TestNotify'
+import PostScreen  from '@/app/post/test'
+import CommentInput from '@/components/CommentInput'
 export default function Index() {
   return (
     <>
 
       <WelcomeScreen/>
+      {/* <PostScreen></PostScreen> */}
       {/* <TestNotify></TestNotify> */}
+      {/* <CommentInput></CommentInput> */}
     </>
 
   

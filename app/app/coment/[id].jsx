@@ -13,6 +13,7 @@ import { listenToComments,listenToPostById } from "@/services/realTime.service";
 import { NotificationService } from "@/services/notification.services";
 import {ReactionService} from "@/services/reactionPost.service"
 import moment from "moment";
+import {addReplyToComment} from '@/services/ReplyComment.services'
 export default function Forum(){
     
     const {id}=useLocalSearchParams()
@@ -95,7 +96,11 @@ export default function Forum(){
         content:text,
         time:new Date()
       }
-    
+      addReplyToComment(commentId,text,user.id,user.name).then(()=>{
+        console.log('commentaire bien reussi')
+      }).catch((e)=>{
+        console.error(e)
+      })
 
     }
 
